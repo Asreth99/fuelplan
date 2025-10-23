@@ -1,0 +1,20 @@
+[
+  {
+    "fuelType": "95-petrol",
+    "minimum": "547.0",
+    "average": "577.4",
+    "maximum": "637.9"
+  },
+  {
+    "fuelType": "Diesel",
+    "minimum": "548.0",
+    "average": "582.1",
+    "maximum": "646.9"
+  },
+  {
+    "fuelType": "100-petrol",
+    "minimum": "574.0",
+    "average": "631.6",
+    "maximum": "714.9"
+  }
+]
