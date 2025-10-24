@@ -9,12 +9,13 @@ type sidebarProps = {
   setOrigin: (v: string) => void;
   destination: string;
   setDestination: (v: string) => void;
+  directions: google.maps.DirectionsResult | null;
   onSubmit: () => void;
   
 }
 
 
-function SideBarLayout({ origin, setOrigin, destination, setDestination, onSubmit }: sidebarProps) {
+function SideBarLayout({ origin, setOrigin, destination, setDestination, directions, onSubmit }: sidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <div style={{display: 'flex', flexDirection: 'row', height: '100vh'}}>
@@ -32,7 +33,9 @@ function SideBarLayout({ origin, setOrigin, destination, setDestination, onSubmi
                 />
               </SubMenu>
               <SubMenu label="Calculator" >
-                <Calculator />
+                <Calculator
+                  directions={directions}
+                />
               </SubMenu>
         </Menu>
       </Sidebar>

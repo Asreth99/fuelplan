@@ -1,16 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Dialog from "../dialogComponent/dialog"
 import  calculateTotalCost  from './helper';
 import './calculator.css';
 
-export default function Calculator() {
+type CalculatorProps = {
+    directions: google.maps.DirectionsResult | null;
+};
+
+export default function Calculator({ directions }: CalculatorProps) {
     const [distance, setDistance] = useState('');
     const [consumption, setConsumption] = useState('');
     const [price, setPrice] = useState('');
     const [totalCost, setTotalCost] = useState<number | 0>(0);
+    const restultDistance = directions?.routes[0].legs[0].distance?.value;
 
     const [showDialog, setShowDialog] = useState(false);
+
+    useEffect(() => {
+        if (restultDistance !== undefined) {
+            setDistance((restultDistance / 1000).toFixed(0).toString());
+        }
+    }, [restultDistance]);
 
   return (
     <div style={{ padding: 20 }}>

@@ -29,6 +29,7 @@ function ReFuel() {
         setOrigin={setOrigin} 
         destination={destination} 
         setDestination={setDestination} 
+        directions={directions}
         onSubmit={handleSubmit}
       />
 
