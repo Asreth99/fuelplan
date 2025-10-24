@@ -1,21 +1,36 @@
 .App {
   text-align: center;
-  background-color: #1e1e29;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+
 }
 
 .App-link {
   color: #61dafb;
 }
 
+body {
+  background-color: #282c34;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input{
+  color: black;
+  background-color: white;
+  border-color: black;
+}
+
 
 .modal {
+  color: black;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,7 +46,6 @@
 }
 
 .button {
-  background-color: #082a33;
   border: none;
   color: white;
   padding: 10px 20px;

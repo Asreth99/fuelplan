@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import Dialog from "../dialogComponent/dialog"
 import  calculateTotalCost  from './helper';
-
+import './calculator.css';
 
 export default function Calculator() {
     const [distance, setDistance] = useState('');
@@ -13,8 +13,8 @@ export default function Calculator() {
     const [showDialog, setShowDialog] = useState(false);
 
   return (
-    <div className="App">
-        <label htmlFor="fuel-input">Full distance:</label><br />
+    <div style={{ padding: 20 }}>
+        <label>Full distance:</label><br />
         <input 
             type="number"
             value={distance}
@@ -22,7 +22,7 @@ export default function Calculator() {
             setDistance(event.target.value);
         }} /><br /><br />
 
-        <label htmlFor="fuel-input">Consumption (l/100km):</label><br />
+        <label>Consumption (l/100km):</label><br />
         <input 
             type="number"
             value={consumption}
@@ -30,7 +30,7 @@ export default function Calculator() {
             setConsumption(event.target.value);
         }} /><br /><br />
 
-        <label htmlFor="fuel-input">Full price:</label><br />
+        <label>Full price:</label><br />
         <input 
             type="number"
             value={price}
