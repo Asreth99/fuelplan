@@ -1,3 +1,12 @@
+import {
+  Button,
+  Field,
+  Group,
+  Input,
+  NumberInput,
+  Separator,
+  Stack,
+} from "@chakra-ui/react";
 import { Autocomplete } from "@react-google-maps/api";
 import { useState } from "react";
 
@@ -14,18 +23,34 @@ export default function AutocompleteForm({
   setOrigin,
   destination,
   setDestination,
-  onSubmit
+  onSubmit,
 }: Props) {
-
   const [fromInputValue, setFromInputValue] = useState(origin);
   const [toInputValue, setToInputValue] = useState(destination);
+  const [fromLocation, setFromLocation] = useState<{
+    lat?: number;
+    lng?: number;
+  }>({});
+  const [toLocation, setToLocation] = useState<{ lat?: number; lng?: number }>(
+    {}
+  );
 
-  const [autocompleteFrom, setAutocompleteFrom] = useState<google.maps.places.Autocomplete | null>(null);
-  const [autocompleteTo, setAutocompleteTo] = useState<google.maps.places.Autocomplete | null>(null);
+  const [autocompleteFrom, setAutocompleteFrom] =
+    useState<google.maps.places.Autocomplete | null>(null);
+  const [autocompleteTo, setAutocompleteTo] =
+    useState<google.maps.places.Autocomplete | null>(null);
 
   const onPlaceChangedFrom = () => {
     if (autocompleteFrom) {
-      const formatted = autocompleteFrom.getPlace().formatted_address || "";
+      const place = autocompleteFrom.getPlace();
+      const formatted = place.formatted_address || "";
+      const lat = place.geometry?.location
+        ? place.geometry.location.lat()
+        : undefined;
+      const lng = place.geometry?.location
+        ? place.geometry.location.lng()
+        : undefined;
+      setFromLocation({ lat, lng });
       setOrigin(formatted);
       setFromInputValue(formatted);
     }
@@ -41,39 +66,46 @@ export default function AutocompleteForm({
 
   return (
     <form
-      onSubmit={e => {
+      onSubmit={(e) => {
         e.preventDefault();
         setOrigin(fromInputValue);
         setDestination(toInputValue);
         onSubmit();
       }}
     >
-      <Autocomplete
-        onLoad={setAutocompleteFrom}
-        onPlaceChanged={onPlaceChangedFrom}
-      >
-        <input
-          value={fromInputValue}
-          onChange={e => setFromInputValue(e.target.value)}
-          type="text"
-          placeholder="From"
-          style={{ padding: 6 }}
-        />
-      </Autocomplete>
-
-      <Autocomplete
-        onLoad={setAutocompleteTo}
-        onPlaceChanged={onPlaceChangedTo}
-      >
-        <input
-          value={toInputValue}
-          onChange={e => setToInputValue(e.target.value)}
-          type="text"
-          placeholder="To"
-          style={{ padding: 6 }}
-        />
-      </Autocomplete>
-      <button style={{ padding: 6, background: "black", color: "white" }} type="submit">Search</button>
+      <Stack gap="5" align="center" maxW="sm">
+        <Autocomplete
+          onLoad={setAutocompleteFrom}
+          onPlaceChanged={onPlaceChangedFrom}
+        >
+          <Field.Root>
+            <Field.Label>From</Field.Label>
+            <Input
+              placeholder="Enter origin"
+              borderRadius={"10px"}
+              value={fromInputValue}
+              onChange={(e) => setFromInputValue(e.target.value)}
+            />
+          </Field.Root>
+        </Autocomplete>
+        <Autocomplete
+          onLoad={setAutocompleteTo}
+          onPlaceChanged={onPlaceChangedTo}
+        >
+          <Field.Root>
+            <Field.Label>To</Field.Label>
+            <Input
+              placeholder="Enter destination"
+              borderRadius={"10px"}
+              value={toInputValue}
+              onChange={(e) => setToInputValue(e.target.value)}
+            />
+          </Field.Root>
+        </Autocomplete>
+        <Separator borderColor="gray.200" width="10vh" size={"md"} />
+        <Button type="submit">Search</Button>
+      </Stack>
     </form>
+    
   );
 }
