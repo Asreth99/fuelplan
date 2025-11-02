@@ -17,7 +17,9 @@ jobs:
 
       - name: Build with env
         run: |
-          REACT_APP_GOOGLE_MAPS_API_KEY=${{ secrets.REACT_APP_GOOGLE_MAPS_API_KEY}} npm run build
+          REACT_APP_GOOGLE_MAPS_API_KEY=${{ secrets.REACT_APP_GOOGLE_MAPS_API_KEY}} 
+          REACT_APP_PROD_SERVER_URL=${{ vars.REACT_APP_PROD_SERVER_URL }}
+          npm run build
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
