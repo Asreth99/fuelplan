@@ -16,7 +16,7 @@ export function calculateFuelCost(
 }
 
 export async function getFuelPrice() {
-  const response = await fetch("http://localhost:3001/scrape");
+  const response = await fetch(process.env.REACT_APP_PROD_SERVER_URL + "/scrape");
   if (!response.ok) {
     throw new Error("Hiba a szervertől!");
   }
