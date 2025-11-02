@@ -1,10 +1,21 @@
-.sidebar{
-    background-color: #ffffff;
-    color: black;
-    z-index: 2;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+.sidebar {
+  background-color: #ffffff;
+  color: black;
+  z-index: 2;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.menu-item{
-    color: rgb(0, 0, 0);
+.menu-item {
+  color: rgb(0, 0, 0);
+}
+
+.ps-submenu-content {
+  min-width: 260px !important;
+  max-width: 340px !important;
+  width: 320px !important;
+  max-height: 500px !important;
+}
+
+.ps-submenu-content.css-wlra1l {
+  top: 4vh !important;
 }

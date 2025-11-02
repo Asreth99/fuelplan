@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import helper from "./helper";
-import "./calculator.css";
 import {
   Button,
   Field,
@@ -12,6 +11,7 @@ import {
   Stack,
   HStack,
   Separator,
+  Center,
 } from "@chakra-ui/react";
 import DialogComponent from "../dialogComponent/dialog";
 
@@ -24,7 +24,7 @@ export default function Calculator({ directions }: CalculatorProps) {
   const [distance, setDistance] = useState("");
   const [consumption, setConsumption] = useState("");
   const [price, setPrice] = useState("");
-  const [fuelType, setFuelType] = useState("");
+  const [fuelType, setFuelType] = useState("95-Petrol");
   const [totalCost, setTotalCost] = useState<number | 0>(0);
   const restultDistance = directions?.routes[0].legs[0].distance?.value;
 
@@ -51,44 +51,40 @@ export default function Calculator({ directions }: CalculatorProps) {
     <div style={{ padding: 20 }}>
       <br />
 
-      <Stack
-        gap="5"
-        align="center"
-        maxW="sm"
-        alignItems={"center"}
-        colorPalette={"gray"}
-      >
-        <Field.Root>
-          <Field.Label>Select fuel type:</Field.Label>
+      <Field.Root w={"100%"}>
+        <Field.Label>Select fuel type:</Field.Label>
+        <RadioGroup.Root
+          colorPalette={"teal"}
+          defaultValue={fuelTypes[0].value}
+        >
+          <HStack gap="6">
+            {fuelTypes.map((ft) => (
+              <RadioGroup.Item
+                key={ft.value}
+                value={ft.value}
+                colorPalette={"gray.500"}
+                onChange={() => {
+                  setFuelType(ft.value);
+                }}
+              >
+                <RadioGroup.ItemHiddenInput />
+                <RadioGroup.ItemIndicator />
+                <RadioGroup.ItemText>{ft.label}</RadioGroup.ItemText>
+              </RadioGroup.Item>
+            ))}
+          </HStack>
+        </RadioGroup.Root>
+      </Field.Root>
+      <br />
 
-          <RadioGroup.Root
-            colorPalette={"teal"}
-            defaultValue={fuelTypes[0].value}
-          >
-            <HStack gap="6">
-              {fuelTypes.map((ft) => (
-                <RadioGroup.Item
-                  key={ft.value}
-                  value={ft.value}
-                  colorPalette={"gray.500"}
-                  onChange={() => {
-                    setFuelType(ft.value);
-                  }}
-                >
-                  <RadioGroup.ItemHiddenInput />
-                  <RadioGroup.ItemIndicator />
-                  <RadioGroup.ItemText>{ft.label}</RadioGroup.ItemText>
-                </RadioGroup.Item>
-              ))}
-            </HStack>
-          </RadioGroup.Root>
-        </Field.Root>
-
+      <Stack gap="4" align={"center"} maxW="sm" colorPalette={"gray"}>
         <Separator borderColor="gray.200" width="10vh" size={"md"} />
-        <Field.Root>
-          <Field.Label>Full distance (km):</Field.Label>
-          <NumberInput.Root defaultValue="10" width="200px">
+
+        <Field.Root w={"200px"}>
+          <Field.Label>Full Distance (km)</Field.Label>
+          <NumberInput.Root defaultValue="10" mr={"auto"} size={"md"}>
             <NumberInput.Input
+              placeholder="Full distance (km)"
               value={distance}
               onChange={(event) => {
                 setDistance(event.target.value);
@@ -97,32 +93,41 @@ export default function Calculator({ directions }: CalculatorProps) {
           </NumberInput.Root>
         </Field.Root>
 
-        <Field.Root>
-          <Field.Label>Consumption (L/100km):</Field.Label>
-          <NumberInput.Root defaultValue="10" width="200px">
+        <Field.Root w={"200px"}>
+          <Field.Label>Consumption (L/100km)</Field.Label>
+
+          <NumberInput.Root defaultValue="10" mr={"auto"} size={"md"}>
             <NumberInput.Input
+              placeholder="Consumption (l/100km)"
               value={consumption}
               onChange={(event) => setConsumption(event.target.value)}
             />
           </NumberInput.Root>
         </Field.Root>
+        <Field.Root w={"200px"}>
+          <Field.Label>Fuel price (HUF/L)</Field.Label>
 
-        <Field.Root>
-          <Field.Label>Fuel price (HUF/L):</Field.Label>
-          <Group attached w="full" maxW="sm">
-            <NumberInput.Root defaultValue="10" width="200px">
+          <Group attached w="full">
+            <NumberInput.Root
+              defaultValue="10"
+              ml={"auto"}
+              size={"md"}
+              w={"300px"}
+            >
               <NumberInput.Input
-                borderLeftRadius={'4px'}
-                borderRightRadius={'0px'}
+                placeholder="Fuel price (HUF/l)"
+                borderLeftRadius={"4px"}
+                borderRightRadius={"0px"}
                 value={price}
                 onChange={(event) => setPrice(event.target.value)}
               />
             </NumberInput.Root>
 
             <Button
-              border={'solid'}
-              borderWidth={'1px'}
-              
+              className="button"
+              border={"solid"}
+              borderWidth={"0px"}
+              m={"-10"}
               onClick={async () => {
                 setLoading(true);
                 try {
@@ -158,7 +163,9 @@ export default function Calculator({ directions }: CalculatorProps) {
         <Separator borderColor="gray.200" width="10vh" size={"md"} />
 
         <Button
+          className="button"
           onClick={() => {
+            console.log("Fuel Type:" + fuelType);
             setShowDialog(true);
             setTotalCost(
               helper.calculateFuelCost(
@@ -172,7 +179,6 @@ export default function Calculator({ directions }: CalculatorProps) {
           Calculate
         </Button>
       </Stack>
-
       {showDialog &&
         createPortal(
           <DialogComponent

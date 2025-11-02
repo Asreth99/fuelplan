@@ -12,6 +12,14 @@ type sidebarProps = {
   setDestination: (v: string) => void;
   directions: google.maps.DirectionsResult | null;
   onSubmit: () => void;
+  setFromLocation: (v: { lat?: number; lng?: number }) => void;
+
+  avoidFerries: boolean;
+  setAvoidFerries: (v: boolean) => void;
+  avoidHighways: boolean;
+  setAvoidHighways: (v: boolean) => void;
+  avoidTolls: boolean;
+  setAvoidTolls: (v: boolean) => void;
 };
 
 function SideBarLayout({
@@ -20,12 +28,19 @@ function SideBarLayout({
   destination,
   setDestination,
   directions,
+  setFromLocation,
   onSubmit,
+  avoidFerries,
+  setAvoidFerries,
+  avoidHighways,
+  setAvoidHighways,
+  avoidTolls,
+  setAvoidTolls,
 }: sidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <div style={{ display: "flex", flexDirection: "row", height: "100vh" }}>
-      <Sidebar className="sidebar" collapsed={collapsed} width="35vh">
+      <Sidebar className="sidebar" collapsed={collapsed} width="38vh">
         <Menu>
           <MenuItem
             onClick={() => setCollapsed(!collapsed)}
@@ -35,6 +50,7 @@ function SideBarLayout({
           <br />
 
           <SubMenu
+            style={{ marginTop: "1vh" }}
             label="Search"
             icon={
               <span
@@ -45,16 +61,24 @@ function SideBarLayout({
               </span>
             }
           >
-            <AutocompleteForm
-              origin={origin}
-              setOrigin={setOrigin}
-              destination={destination}
-              setDestination={setDestination}
-              onSubmit={onSubmit}
-            />
+              <AutocompleteForm
+                origin={origin}
+                setOrigin={setOrigin}
+                destination={destination}
+                setDestination={setDestination}
+                onSubmit={onSubmit}
+                setFromLocation={setFromLocation}
+                avoidFerries={avoidFerries}
+                setAvoidFerries={setAvoidFerries}
+                avoidHighways={avoidHighways}
+                setAvoidHighways={setAvoidHighways}
+                avoidTolls={avoidTolls}
+                setAvoidTolls={setAvoidTolls}
+              />
           </SubMenu>
 
           <SubMenu
+            style={{ marginTop: "5vh" }}
             label="Calculator"
             icon={
               <span
