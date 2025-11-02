@@ -10,7 +10,6 @@ import {
   Center,
   Box,
   Card,
-  Heading,
 } from "@chakra-ui/react";
 import { Autocomplete } from "@react-google-maps/api";
 import { useState } from "react";

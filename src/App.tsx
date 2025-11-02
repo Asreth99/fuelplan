@@ -28,7 +28,7 @@ function ReFuel() {
     <>
       <div style={{ position: "relative", display: "flex", height: "100vh" }}>
         <LoadScript
-          googleMapsApiKey="AIzaSyAi17AEaHewcvBOByq2cZo7Pe8XJOcRlq4"
+          googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string} 
           loadingElement={<Loading/>}
           libraries={["places"]}
         >
