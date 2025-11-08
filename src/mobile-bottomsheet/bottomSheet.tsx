@@ -4,7 +4,7 @@ import AutocompleteForm from "../googleMap/autocompleteForm";
 import Calculator from "../calculator/calculator";
 
 import "react-spring-bottom-sheet/dist/style.css";
-import { Button, Center, HStack } from "@chakra-ui/react";
+import { Button, Center } from "@chakra-ui/react";
 
 type bottomSheetProps = {
   origin: string;
@@ -37,7 +37,7 @@ export default function MobileBottomSheet({
   avoidTolls,
   setAvoidTolls,
 }: bottomSheetProps) {
-  const [open, setOpen] = useState(true);
+  const [open] = useState(true);
   const [mode, setMode] = useState<"menu" | "search" | "calculate">("menu");
   const sheetRef = useRef<BottomSheetRef>(null);
 
