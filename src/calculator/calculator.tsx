@@ -11,6 +11,7 @@ import {
   Stack,
   HStack,
   Separator,
+  Center,
 } from "@chakra-ui/react";
 import DialogComponent from "../dialogComponent/dialog";
 
@@ -49,34 +50,44 @@ export default function Calculator({ directions }: CalculatorProps) {
   return (
     <div style={{ padding: 20 }}>
       <br />
+      <Center>
+        <Stack align="center" w="190px">
+          <Field.Root w={"100%"} className="calculator-field">
+            <Field.Label>Select fuel type:</Field.Label>
+            <RadioGroup.Root
+              colorPalette={"teal"}
+              defaultValue={fuelTypes[0].value}
+            >
+              <HStack gap="6">
+                {fuelTypes.map((ft) => (
+                  <RadioGroup.Item
+                    key={ft.value}
+                    value={ft.value}
+                    colorPalette={"gray.500"}
+                    onChange={() => {
+                      setFuelType(ft.value);
+                    }}
+                  >
+                    <RadioGroup.ItemHiddenInput />
+                    <RadioGroup.ItemIndicator />
+                    <RadioGroup.ItemText>{ft.label}</RadioGroup.ItemText>
+                  </RadioGroup.Item>
+                ))}
+              </HStack>
+            </RadioGroup.Root>
+          </Field.Root>
+        </Stack>
+      </Center>
 
-      <Field.Root w={"100%"}>
-        <Field.Label>Select fuel type:</Field.Label>
-        <RadioGroup.Root
-          colorPalette={"teal"}
-          defaultValue={fuelTypes[0].value}
-        >
-          <HStack gap="6">
-            {fuelTypes.map((ft) => (
-              <RadioGroup.Item
-                key={ft.value}
-                value={ft.value}
-                colorPalette={"gray.500"}
-                onChange={() => {
-                  setFuelType(ft.value);
-                }}
-              >
-                <RadioGroup.ItemHiddenInput />
-                <RadioGroup.ItemIndicator />
-                <RadioGroup.ItemText>{ft.label}</RadioGroup.ItemText>
-              </RadioGroup.Item>
-            ))}
-          </HStack>
-        </RadioGroup.Root>
-      </Field.Root>
       <br />
 
-      <Stack gap="4" align={"center"} maxW="sm" colorPalette={"gray"}>
+      <Stack
+        gap="4"
+        align={"center"}
+        maxW="sm"
+        colorPalette={"gray"}
+        className="calculator-field"
+      >
         <Separator borderColor="gray.200" width="10vh" size={"md"} />
 
         <Field.Root w={"200px"}>

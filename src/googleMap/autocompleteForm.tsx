@@ -123,7 +123,7 @@ export default function AutocompleteForm({
 
       <Center>
         <Box w={"30vh"}>
-          <Accordion.Root collapsible variant={"plain"}>
+          <Accordion.Root collapsible variant={"plain"} className="autocomplete-field">
             <Accordion.Item value="item-1">
               <Accordion.ItemTrigger>
                 <Text ml={'auto'}>Route Options</Text>

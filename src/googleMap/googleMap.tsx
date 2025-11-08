@@ -8,11 +8,6 @@ import {
 import { useEffect, useState } from "react";
 import "./map.css";
 
-const containerStyle = {
-  width: "100%",
-  height: "100%",
-};
-
 const initialCenter = {
   lat: 47.497913,
   lng: 19.040236,
@@ -85,7 +80,14 @@ function MapComponent({
   }
 
   return (
-    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
+    <GoogleMap
+      mapContainerClassName="map-container"
+      center={center}
+      zoom={15}
+      options={{
+        gestureHandling: "greedy",
+      }}
+    >
       {requestDirections && (
         <DirectionsService
           options={{

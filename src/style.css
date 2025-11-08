@@ -1,10 +1,18 @@
+html,
+body,
+#root,
 .App {
-  text-align: center;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: var(--app-height);
+  min-height: var(--app-height);
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+}
+
+input,
+textarea,
+select {
+  font-size: 16px;
 }
 
 .button {
@@ -16,4 +24,27 @@
 .card {
   background-color: white;
   color: black;
+}
+
+.pac-container {
+  z-index: 99999 !important;
+}
+
+.calculator-field {
+  color: black;
+}
+
+.autocomplete-field {
+  color: black;
+}
+
+[data-rsbs-root] {
+  border-radius: 10vh;
+  overflow: hidden;
+}
+
+.map-container {
+  height: calc(var(--app-height) - 0px);
+  width: 100vw;
+  box-sizing: border-box;
 }
