@@ -1,6 +1,6 @@
 import "./style.css";
 import { useEffect, useState } from "react";
-import SideBar from "./sidebar/sidebar";
+//import SideBar from "./sidebar/sidebar";
 import MapComponent from "./googleMap/googleMap";
 import { LoadScript } from "@react-google-maps/api";
 import Loading from "./loading/loading";
@@ -17,17 +17,17 @@ function ReFuel() {
     lng?: number;
   }>({});
 
-    useEffect(() => {
-      function setAppHeight() {
-        document.documentElement.style.setProperty(
-          "--app-height",
-          `${window.innerHeight}px`
-        );
-      }
-      window.addEventListener("resize", setAppHeight);
-      setAppHeight();
-      return () => window.removeEventListener("resize", setAppHeight);
-    }, []);
+  useEffect(() => {
+    function setAppHeight() {
+      document.documentElement.style.setProperty(
+        "--app-height",
+        `${window.innerHeight}px`
+      );
+    }
+    window.addEventListener("resize", setAppHeight);
+    setAppHeight();
+    return () => window.removeEventListener("resize", setAppHeight);
+  }, []);
 
   const [avoidHighways, setAvoidHighways] = useState(false);
   const [avoidTolls, setAvoidTolls] = useState(false);
