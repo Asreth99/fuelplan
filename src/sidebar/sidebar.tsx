@@ -40,7 +40,7 @@ function SideBarLayout({
   const [collapsed, setCollapsed] = useState(false);
   return (
     <div style={{ display: "flex", flexDirection: "row", height: "100vh" }}>
-      <Sidebar className="sidebar" collapsed={collapsed} width="38vh">
+      <Sidebar className="sidebar" collapsed={collapsed} width="340px">
         <Menu>
           <MenuItem
             onClick={() => setCollapsed(!collapsed)}
@@ -61,24 +61,24 @@ function SideBarLayout({
               </span>
             }
           >
-              <AutocompleteForm
-                origin={origin}
-                setOrigin={setOrigin}
-                destination={destination}
-                setDestination={setDestination}
-                onSubmit={onSubmit}
-                setFromLocation={setFromLocation}
-                avoidFerries={avoidFerries}
-                setAvoidFerries={setAvoidFerries}
-                avoidHighways={avoidHighways}
-                setAvoidHighways={setAvoidHighways}
-                avoidTolls={avoidTolls}
-                setAvoidTolls={setAvoidTolls}
-              />
+            <AutocompleteForm
+              origin={origin}
+              setOrigin={setOrigin}
+              destination={destination}
+              setDestination={setDestination}
+              onSubmit={onSubmit}
+              setFromLocation={setFromLocation}
+              avoidFerries={avoidFerries}
+              setAvoidFerries={setAvoidFerries}
+              avoidHighways={avoidHighways}
+              setAvoidHighways={setAvoidHighways}
+              avoidTolls={avoidTolls}
+              setAvoidTolls={setAvoidTolls}
+            />
           </SubMenu>
 
           <SubMenu
-            style={{ marginTop: "5vh" }}
+            style={{ marginTop: "5vh", overflow:"visible" }}
             label="Calculator"
             icon={
               <span
@@ -89,7 +89,13 @@ function SideBarLayout({
               </span>
             }
           >
-            <Calculator directions={directions} />
+            <Calculator
+              directions={directions}
+              origin={origin}
+              setOrigin={setOrigin}
+              destination={destination}
+              setDestination={setDestination}
+            />
           </SubMenu>
         </Menu>
       </Sidebar>

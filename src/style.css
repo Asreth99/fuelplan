@@ -15,6 +15,10 @@ select {
   font-size: 16px;
 }
 
+.ps-submenu-content{
+  overflow: hidden !important;
+}
+
 .button {
   background-color: #525f70;
   color: white;
@@ -44,7 +48,19 @@ select {
 }
 
 .map-container {
-  height: calc(var(--app-height) - 0px);
+  height: calc(var(--app-height) - 70px);
   width: 100vw;
   box-sizing: border-box;
+}
+
+@media (min-width: 901px) {
+  .map-container {
+    height: 100vh;
+  }
+}
+
+@media (max-width: 600px) {
+  .autocomplete-card {
+    width: 90vw;
+  }
 }

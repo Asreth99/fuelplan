@@ -43,6 +43,7 @@ export default function MobileBottomSheet({
 
   const snapPoints = ({ maxHeight }: { maxHeight: number }) => [
     maxHeight * 0.15,
+    maxHeight * 0.5,
     maxHeight,
   ];
 
@@ -50,7 +51,7 @@ export default function MobileBottomSheet({
   useEffect(() => {
     if (sheetRef.current) {
       if (mode === "search") {
-        sheetRef.current.snapTo(({ maxHeight }) => maxHeight * 1.0);
+        sheetRef.current.snapTo(({ maxHeight }) => maxHeight * 0.5);
       } else if (mode === "calculate") {
         sheetRef.current.snapTo(({ maxHeight }) => maxHeight * 1.0);
       } else {
@@ -114,7 +115,7 @@ export default function MobileBottomSheet({
             }}
           />
         )}
-        {mode === "calculate" && <Calculator directions={directions} />}
+        {mode === "calculate" && <Calculator directions={directions} origin={origin} setOrigin={setOrigin} destination={destination} setDestination={setDestination} />}
       </BottomSheet>
     </>
   );

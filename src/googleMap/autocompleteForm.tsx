@@ -85,7 +85,7 @@ export default function AutocompleteForm({
         onSubmit();
       }}
     >
-      <Card.Root boxShadow={"sm"} border={"none"}>
+      <Card.Root boxShadow={"sm"} border={"none"} >
         <Card.Body className="card">
           <Stack gap="3" align="center" maxW="sm">
             <Autocomplete

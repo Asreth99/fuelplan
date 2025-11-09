@@ -8,7 +8,7 @@ export type FuelPriceData = {
 export function calculateFuelCost(
   distance: number,
   consumption: number,
-  price: number
+  price: number,
 ): number {
   const litersNeeded = (distance / 100) * consumption;
   const totalCost = litersNeeded * price;
@@ -16,6 +16,8 @@ export function calculateFuelCost(
 }
 
 export async function getFuelPrice() {
+  const test = process.env.REACT_APP_PROD_SERVER_URL;
+  console.log("Server URL: " + test);
   const response = await fetch(
     process.env.REACT_APP_PROD_SERVER_URL + "/scrape"
   );

@@ -17,13 +17,24 @@ import DialogComponent from "../dialogComponent/dialog";
 
 type CalculatorProps = {
   directions: google.maps.DirectionsResult | null;
+  origin: string;
+  setOrigin: (v: string) => void;
+  destination: string;
+  setDestination: (v: string) => void;
 };
 
-export default function Calculator({ directions }: CalculatorProps) {
+export default function Calculator({
+  directions,
+  origin,
+  setOrigin,
+  destination,
+  setDestination,
+}: CalculatorProps) {
   const [loading, setLoading] = useState(false);
   const [distance, setDistance] = useState("");
   const [consumption, setConsumption] = useState("");
   const [price, setPrice] = useState("");
+  const [passengers, setPassengers] = useState(1);
   const [fuelType, setFuelType] = useState("95-Petrol");
   const [totalCost, setTotalCost] = useState<number | 0>(0);
   const restultDistance = directions?.routes[0].legs[0].distance?.value;
@@ -48,8 +59,7 @@ export default function Calculator({ directions }: CalculatorProps) {
   }, [restultDistance]);
 
   return (
-    <div style={{ padding: 20 }}>
-      <br />
+    <div style={{ paddingBottom: "10px" }}>
       <Center>
         <Stack align="center" w="190px">
           <Field.Root w={"100%"} className="calculator-field">
@@ -92,7 +102,7 @@ export default function Calculator({ directions }: CalculatorProps) {
 
         <Field.Root w={"200px"}>
           <Field.Label>Full Distance (km)</Field.Label>
-          <NumberInput.Root defaultValue="10" mr={"auto"} size={"md"}>
+          <NumberInput.Root mr={"auto"} size={"md"}  min={0}>
             <NumberInput.Input
               placeholder="Full distance (km)"
               value={distance}
@@ -106,7 +116,7 @@ export default function Calculator({ directions }: CalculatorProps) {
         <Field.Root w={"200px"}>
           <Field.Label>Consumption (L/100km)</Field.Label>
 
-          <NumberInput.Root defaultValue="10" mr={"auto"} size={"md"}>
+          <NumberInput.Root mr={"auto"} size={"md"}  min={0}>
             <NumberInput.Input
               placeholder="Consumption (l/100km)"
               value={consumption}
@@ -118,12 +128,7 @@ export default function Calculator({ directions }: CalculatorProps) {
           <Field.Label>Fuel price (HUF/L)</Field.Label>
 
           <Group attached w="full">
-            <NumberInput.Root
-              defaultValue="10"
-              ml={"auto"}
-              size={"md"}
-              w={"300px"}
-            >
+            <NumberInput.Root ml={"auto"} size={"md"} w={"300px"} min={0}>
               <NumberInput.Input
                 placeholder="Fuel price (HUF/l)"
                 borderLeftRadius={"4px"}
@@ -170,6 +175,20 @@ export default function Calculator({ directions }: CalculatorProps) {
           </Group>
         </Field.Root>
 
+        <Field.Root w={"200px"}>
+          <Field.Label>Number of Passengers</Field.Label>
+
+          <NumberInput.Root mr={"auto"} size={"md"} min={1}>
+            <NumberInput.Input
+              placeholder="Number of Passengers"
+              defaultValue={passengers}
+
+              value={passengers}
+              onChange={(event) => setPassengers(Number(event.target.value))}
+            />
+          </NumberInput.Root>
+        </Field.Root>
+
         <Separator borderColor="gray.200" width="10vh" size={"md"} />
 
         <Button
@@ -181,7 +200,7 @@ export default function Calculator({ directions }: CalculatorProps) {
               helper.calculateFuelCost(
                 Number(distance),
                 Number(consumption),
-                Number(price)
+                Number(price),
               )
             );
           }}
@@ -192,9 +211,15 @@ export default function Calculator({ directions }: CalculatorProps) {
       {showDialog &&
         createPortal(
           <DialogComponent
+            passengers={passengers}
             totalCost={totalCost.toFixed(0)}
             show={showDialog}
             setShow={setShowDialog}
+            origin={origin}
+            setOrigin={setOrigin}
+            destination={destination}
+            setDestination={setDestination}
+            directions={directions}
           />,
           document.body
         )}
