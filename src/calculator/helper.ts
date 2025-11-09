@@ -6,13 +6,15 @@ export type FuelPriceData = {
 };
 
 export function calculateFuelCost(
-  distance: number,
-  consumption: number,
-  price: number,
+  distance: number | string,
+  consumption: number | string,
+  price: number | string
 ): number {
-  const litersNeeded = (distance / 100) * consumption;
-  const totalCost = litersNeeded * price;
-  return totalCost;
+  const num = (x: number | string) =>
+    Number(typeof x === "string" ? x.replace(",", ".") : x);
+  console.log("num:" + num(consumption));
+  const litersNeeded = (num(distance) / 100) * num(consumption);
+  return litersNeeded * num(price);
 }
 
 export async function getFuelPrice() {

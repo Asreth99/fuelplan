@@ -34,7 +34,7 @@ export default function Calculator({
   const [distance, setDistance] = useState("");
   const [consumption, setConsumption] = useState("");
   const [price, setPrice] = useState("");
-  const [passengers, setPassengers] = useState<number | undefined>(undefined);
+  const [passengers, setPassengers] = useState<number | 0>(0);
   const [fuelType, setFuelType] = useState("95-Petrol");
   const [totalCost, setTotalCost] = useState<number | 0>(0);
   const restultDistance = directions?.routes[0].legs[0].distance?.value;
@@ -197,7 +197,7 @@ export default function Calculator({
             setTotalCost(
               helper.calculateFuelCost(
                 Number(distance),
-                Number(consumption),
+                consumption,
                 Number(price)
               )
             );
