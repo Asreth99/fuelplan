@@ -38,7 +38,7 @@ export default function MobileBottomSheet({
   setAvoidTolls,
 }: bottomSheetProps) {
   const [open] = useState(true);
-  const [mode, setMode] = useState<"menu" | "search" | "calculate">("menu");
+  const [mode, setMode] = useState<"search" | "calculate">("search");
   const sheetRef = useRef<BottomSheetRef>(null);
 
   const snapPoints = ({ maxHeight }: { maxHeight: number }) => [
@@ -47,7 +47,6 @@ export default function MobileBottomSheet({
     maxHeight,
   ];
 
-  // Figyeljük, ha a mode változik → automatikusan snapTo a megfelelő értékre
   useEffect(() => {
     if (sheetRef.current) {
       if (mode === "search") {
@@ -66,7 +65,7 @@ export default function MobileBottomSheet({
         ref={sheetRef}
         open={open}
         snapPoints={snapPoints}
-        defaultSnap={({ snapPoints }) => snapPoints[0]}
+        defaultSnap={({ snapPoints }) => snapPoints[1]}
         maxHeight={600}
         expandOnContentDrag={true}
         blocking={false}
@@ -78,7 +77,7 @@ export default function MobileBottomSheet({
           >
             <span
               className="material-symbols-outlined"
-              style={{ fontSize: 30 }}
+              style={{ fontSize: 30, color: "black" }}
             >
               search
             </span>
@@ -90,7 +89,7 @@ export default function MobileBottomSheet({
           >
             <span
               className="material-symbols-outlined"
-              style={{ fontSize: 30 }}
+              style={{ fontSize: 30, color: "black" }}
             >
               calculate
             </span>
@@ -111,11 +110,19 @@ export default function MobileBottomSheet({
             setAvoidTolls={setAvoidTolls}
             onSubmit={() => {
               onSubmit();
-              setMode("menu");
+              setMode("search");
             }}
           />
         )}
-        {mode === "calculate" && <Calculator directions={directions} origin={origin} setOrigin={setOrigin} destination={destination} setDestination={setDestination} />}
+        {mode === "calculate" && (
+          <Calculator
+            directions={directions}
+            origin={origin}
+            setOrigin={setOrigin}
+            destination={destination}
+            setDestination={setDestination}
+          />
+        )}
       </BottomSheet>
     </>
   );
