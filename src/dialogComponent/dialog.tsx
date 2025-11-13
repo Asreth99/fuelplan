@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 type DialogProps = {
-  passengers: number;
+  passengers: string;
   show: boolean;
   setShow: (v: boolean) => void;
   totalCost: string;
@@ -101,28 +101,33 @@ export default function DialogComponent({
                   <Separator borderColor="gray.200" size={"md"} />
                   <DataList.Item>
                     <DataList.ItemLabel fontSize={"xs"} fontWeight={"bold"}>
-                      Total Cost:
+                      One-Way Cost:
                     </DataList.ItemLabel>
                     <DataList.ItemValue>
                       <strong>
                         {Number(totalCost).toLocaleString("hu-HU")} HUF (
-                        {Math.round(Number(totalCost) / passengers).toLocaleString("hu-HU")} HUF /{" "}
-                        {passengers} passengers)
+                        {Math.round(
+                          Number(totalCost) / Number(passengers)
+                        ).toLocaleString("hu-HU")}{" "}
+                        HUF / {passengers} passengers)
                       </strong>
                     </DataList.ItemValue>
                   </DataList.Item>
 
                   <DataList.Item>
                     <DataList.ItemLabel fontSize={"xs"} fontWeight={"bold"}>
-                      Returnal Total Cost:
+                      Return-Trip Cost:
                     </DataList.ItemLabel>
                     <DataList.ItemValue>
                       <strong>
-                        {Math.round(Number(totalCost) * 2).toLocaleString("hu-HU")} HUF (
+                        {Math.round(Number(totalCost) * 2).toLocaleString(
+                          "hu-HU"
+                        )}{" "}
+                        HUF (
                         {Math.round(
-                          (Number(totalCost) * 2) / passengers
+                          (Number(totalCost) * 2) / Number(passengers)
                         ).toLocaleString("hu-HU")}{" "}
-                         HUF / {passengers} passengers)
+                        HUF / {passengers} passengers)
                       </strong>
                     </DataList.ItemValue>
                   </DataList.Item>

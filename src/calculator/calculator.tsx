@@ -34,7 +34,7 @@ export default function Calculator({
   const [distance, setDistance] = useState("");
   const [consumption, setConsumption] = useState("");
   const [price, setPrice] = useState("");
-  const [passengers, setPassengers] = useState<number | 0>(0);
+  const [passengers, setPassengers] = useState("");
   const [fuelType, setFuelType] = useState("95-Petrol");
   const [totalCost, setTotalCost] = useState<number | 0>(0);
   const restultDistance = directions?.routes[0].legs[0].distance?.value;
@@ -102,7 +102,7 @@ export default function Calculator({
 
         <Field.Root w={"200px"}>
           <Field.Label>Full Distance (km)</Field.Label>
-          <NumberInput.Root mr={"auto"} size={"md"} min={1}>
+          <NumberInput.Root mr={"auto"} size={"md"} >
             <NumberInput.Input
               placeholder="Full distance (km)"
               value={distance}
@@ -116,7 +116,7 @@ export default function Calculator({
         <Field.Root w={"200px"}>
           <Field.Label>Consumption (L/100km)</Field.Label>
 
-          <NumberInput.Root mr={"auto"} size={"md"} min={0}>
+          <NumberInput.Root mr={"auto"} size={"md"} >
             <NumberInput.Input
               placeholder="Consumption (l/100km)"
               value={consumption}
@@ -128,7 +128,7 @@ export default function Calculator({
           <Field.Label>Fuel price (HUF/L)</Field.Label>
 
           <Group attached w="full">
-            <NumberInput.Root ml={"auto"} size={"md"} w={"300px"} min={1}>
+            <NumberInput.Root ml={"auto"} size={"md"} w={"300px"} >
               <NumberInput.Input
                 placeholder="Fuel price (HUF/l)"
                 borderLeftRadius={"4px"}
@@ -178,11 +178,11 @@ export default function Calculator({
         <Field.Root w={"200px"}>
           <Field.Label>Number of Passengers</Field.Label>
 
-          <NumberInput.Root mr={"auto"} size={"md"} min={1}>
+          <NumberInput.Root mr={"auto"} size={"md"} >
             <NumberInput.Input
               placeholder="Number of Passengers"
               value={passengers}
-              onChange={(event) => setPassengers(Number(event.target.value))}
+              onChange={(event) => setPassengers(event.target.value)}
             />
           </NumberInput.Root>
         </Field.Root>
