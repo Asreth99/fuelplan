@@ -7,6 +7,8 @@ import {
 } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import "./map.css";
+import AlertComponent from "../alertComponent/alertComponent";
+import { createPortal } from "react-dom";
 
 const initialCenter = {
   lat: 47.497913,
@@ -39,6 +41,7 @@ function MapComponent({
   avoidTolls,
 }: Props) {
   const [center, setCenter] = useState(initialCenter);
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     if (fromLocation.lat !== undefined && fromLocation.lng !== undefined) {
@@ -98,15 +101,16 @@ function MapComponent({
             avoidHighways: avoidHighways,
             avoidTolls: avoidTolls,
           }}
-          callback={(
-            result: google.maps.DirectionsResult | null,
-            status: google.maps.DirectionsStatus
-          ) => {
-            if (result && status === "OK") {
+          callback={(result, status) => {
+            // Ne try-catch, hanem status ellenőrzés
+            if (status === "OK" && result) {
               console.log(result);
               setDirections(result);
-              setRequestDirections(false);
+            } else {
+              console.error("Directions request failed:", status);
+              setShowAlert(true);
             }
+            setRequestDirections(false);
           }}
         />
       )}
@@ -131,6 +135,16 @@ function MapComponent({
             </InfoWindow>
           );
         })()}
+
+      {createPortal(
+        <AlertComponent
+          show={showAlert}
+          setShow={setShowAlert}
+          title="Invalid Search"
+          message="Could not find a route with the given locations and preferences."
+        />,
+        document.body
+      )}
     </GoogleMap>
   );
 }

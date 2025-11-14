@@ -14,6 +14,7 @@ import {
   Center,
 } from "@chakra-ui/react";
 import DialogComponent from "../dialogComponent/dialog";
+import AlertComponent from "../alertComponent/alertComponent";
 
 type CalculatorProps = {
   directions: google.maps.DirectionsResult | null;
@@ -31,6 +32,7 @@ export default function Calculator({
   setDestination,
 }: CalculatorProps) {
   const [loading, setLoading] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const [distance, setDistance] = useState("");
   const [consumption, setConsumption] = useState("");
   const [price, setPrice] = useState("");
@@ -102,7 +104,7 @@ export default function Calculator({
 
         <Field.Root w={"200px"}>
           <Field.Label>Full Distance (km)</Field.Label>
-          <NumberInput.Root mr={"auto"} size={"md"} >
+          <NumberInput.Root mr={"auto"} size={"md"}>
             <NumberInput.Input
               placeholder="Full distance (km)"
               value={distance}
@@ -116,7 +118,7 @@ export default function Calculator({
         <Field.Root w={"200px"}>
           <Field.Label>Consumption (L/100km)</Field.Label>
 
-          <NumberInput.Root mr={"auto"} size={"md"} >
+          <NumberInput.Root mr={"auto"} size={"md"}>
             <NumberInput.Input
               placeholder="Consumption (l/100km)"
               value={consumption}
@@ -128,7 +130,7 @@ export default function Calculator({
           <Field.Label>Fuel price (HUF/L)</Field.Label>
 
           <Group attached w="full">
-            <NumberInput.Root ml={"auto"} size={"md"} w={"300px"} >
+            <NumberInput.Root ml={"auto"} size={"md"} w={"300px"}>
               <NumberInput.Input
                 placeholder="Fuel price (HUF/l)"
                 borderLeftRadius={"4px"}
@@ -160,6 +162,7 @@ export default function Calculator({
                     setPrice(filteredPrice[1].average);
                   }
                 } catch (error) {
+                  setShowAlert(true);
                   console.error("Error fetching fuel price:", error);
                 } finally {
                   setLoading(false);
@@ -178,7 +181,7 @@ export default function Calculator({
         <Field.Root w={"200px"}>
           <Field.Label>Number of Passengers</Field.Label>
 
-          <NumberInput.Root mr={"auto"} size={"md"} >
+          <NumberInput.Root mr={"auto"} size={"md"}>
             <NumberInput.Input
               placeholder="Number of Passengers"
               value={passengers}
@@ -192,15 +195,24 @@ export default function Calculator({
         <Button
           className="button"
           onClick={() => {
-            console.log("Fuel Type:" + fuelType);
-            setShowDialog(true);
-            setTotalCost(
-              helper.calculateFuelCost(
-                Number(distance),
-                consumption,
-                Number(price)
-              )
-            );
+            if (
+              distance === "" ||
+              consumption === "" ||
+              price === "" ||
+              passengers === "" ||
+              passengers === "0"
+            ) {
+              setShowAlert(true);
+            } else {
+              setShowDialog(true);
+              setTotalCost(
+                helper.calculateFuelCost(
+                  Number(distance),
+                  consumption,
+                  Number(price)
+                )
+              );
+            }
           }}
         >
           Calculate
@@ -221,6 +233,16 @@ export default function Calculator({
           />,
           document.body
         )}
+
+      {createPortal(
+        <AlertComponent
+          show={showAlert}
+          setShow={setShowAlert}
+          title="Invalid Fields"
+          message="Some fields are empty or contain invalid values."
+        />,
+        document.body
+      )}
     </div>
   );
 }
