@@ -105,7 +105,7 @@ export default function DialogComponent({
                     </DataList.ItemLabel>
                     <DataList.ItemValue>
                       <strong>
-                        {Number(totalCost).toLocaleString("hu-HU")} HUF (
+                        {Number(totalCost).toLocaleString("hu-HU")} HUF <><br/></>(
                         {Math.round(
                           Number(totalCost) / Number(passengers)
                         ).toLocaleString("hu-HU")}{" "}
@@ -123,7 +123,7 @@ export default function DialogComponent({
                         {Math.round(Number(totalCost) * 2).toLocaleString(
                           "hu-HU"
                         )}{" "}
-                        HUF (
+                        HUF <><br/></>(
                         {Math.round(
                           (Number(totalCost) * 2) / Number(passengers)
                         ).toLocaleString("hu-HU")}{" "}
