@@ -7,7 +7,6 @@ import { LoadScript } from "@react-google-maps/api";
 import Loading from "./loading/loading";
 import MobileBottomSheet from "./mobile-bottomsheet/bottomSheet";
 import helper from "./calculator/helper";
-import AlertComponent from "./alertComponent/alertComponent";
 
 function ReFuel() {
   const [origin, setOrigin] = useState("");
