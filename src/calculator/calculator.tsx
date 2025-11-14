@@ -11,7 +11,6 @@ import {
   Stack,
   HStack,
   Separator,
-  Center,
 } from "@chakra-ui/react";
 import DialogComponent from "../dialogComponent/dialog";
 import AlertComponent from "../alertComponent/alertComponent";
