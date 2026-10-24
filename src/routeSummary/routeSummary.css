@@ -1,0 +1,16 @@
+.route-summary {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  color: var(--muted);
+  font: 600 13px var(--font);
+}
+.route-summary span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.route-summary .ic {
+  width: 16px;
+  height: 16px;
+}

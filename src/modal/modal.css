@@ -1,0 +1,111 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: rgba(10, 30, 25, 0.38);
+  font-family: var(--font);
+}
+/* A dropdown stays attached to its row; the page behind it is not dimmed. */
+.modal-overlay--dropdown {
+  background: transparent;
+}
+
+.modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  box-sizing: border-box;
+  max-height: calc(100% - 40px);
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 24px 60px rgba(10, 61, 51, 0.3);
+  outline: none;
+}
+.modal--dialog {
+  left: 50%;
+  top: 50%;
+  width: min(440px, calc(100% - 32px));
+  transform: translate(-50%, -50%);
+}
+.modal--dropdown {
+  gap: 6px;
+  padding: 12px;
+  box-shadow: 0 16px 40px rgba(10, 61, 51, 0.25);
+}
+.modal--sheet {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: calc(100% - 24px - env(safe-area-inset-top, 0px));
+  padding: 8px 18px calc(16px + env(safe-area-inset-bottom, 0px));
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  animation: modal-sheet-up 0.22s ease-out;
+}
+@keyframes modal-sheet-up {
+  from {
+    transform: translateY(40px);
+    opacity: 0.6;
+  }
+}
+
+/* The scrolling part under the fixed top bar. The small padding (cancelled by the negative margin)
+   keeps focus rings and selected swatch rings from being clipped at the edges. */
+.modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: inherit;
+  min-height: 0;
+  margin: -6px;
+  padding: 6px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Grabber + title row: on phones the handle that drags the sheet down to close it */
+.modal__handle {
+  display: contents;
+}
+.modal--sheet .modal__handle {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: -8px -18px 0; /* the whole top edge of the sheet is grabbable */
+  padding: 8px 18px 0;
+  touch-action: none; /* the browser must not scroll or zoom while dragging */
+  cursor: grab;
+}
+.modal--sheet {
+  transition: transform 0.2s ease-out;
+}
+.modal--sheet.modal--dragging {
+  transition: none;
+}
+.modal__grabber {
+  width: 40px;
+  height: 5px;
+  flex: none;
+  margin: 0 auto;
+  border-radius: 3px;
+  background: var(--muted-2);
+}
+.modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.modal__head h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+.modal--dropdown .modal__head {
+  padding: 4px 4px 2px 8px;
+}
+.modal--dropdown .modal__head h2 {
+  font-size: 15px;
+}

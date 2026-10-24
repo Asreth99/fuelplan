@@ -1,0 +1,410 @@
+/* ---------- Badge ---------- */
+.car-avatar {
+  width: 42px;
+  height: 42px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(10, 61, 51, 0.08); /* keeps very light custom colours visible on white */
+}
+.car-avatar .ic {
+  width: 22px;
+  height: 22px;
+}
+.car-avatar--custom {
+  background: var(--field);
+  color: var(--accent-text);
+}
+
+.car-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.car-name {
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 750;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.car-meta {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------- Cars list ---------- */
+.cars-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.cars-head__title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.cars-head__sub {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.cars-head .btn {
+  flex: none;
+  height: 40px;
+  padding: 0 16px;
+}
+.cars-loading {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.car-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.car-tile {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--row-bg);
+  color: var(--text);
+  font-family: var(--font);
+  text-align: left;
+  cursor: pointer;
+}
+.car-tile:hover {
+  background: var(--accent-soft);
+}
+.car-badge {
+  flex: none;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--pop);
+  color: var(--brand-dark);
+  font-size: 11px;
+  font-weight: 800;
+}
+.car-tile__edit {
+  width: 18px;
+  height: 18px;
+  color: var(--muted-2);
+}
+
+.cars-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 28px 8px;
+  text-align: center;
+}
+.cars-empty__art {
+  width: 96px;
+  height: 96px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+.cars-empty__art .ic {
+  width: 44px;
+  height: 44px;
+  stroke-width: 1.5;
+}
+.cars-empty h2 {
+  margin: 6px 0 0;
+  font-size: 18px;
+}
+.cars-empty p {
+  max-width: 300px;
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.cars-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: auto 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+.cars-note .ic {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------- Editor ---------- */
+.car-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.car-form__preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--row-bg);
+}
+.car-form__preview .car-avatar {
+  width: 48px;
+  height: 48px;
+  transition: background 0.15s;
+}
+.car-form__seg button[aria-pressed="true"] {
+  background: var(--brand-dark);
+  color: #fff;
+}
+.car-form__number {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  align-content: center;
+  column-gap: 8px;
+}
+.car-form__number input {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: none;
+  color: var(--text);
+  font: inherit;
+}
+.car-form__unit {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.swatch {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--swatch);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+}
+.swatch[aria-checked="true"] {
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--swatch);
+}
+.swatch:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 4px;
+}
+/*
+ * Custom colour: an empty dashed circle with a palette icon that opens the system colour picker.
+ * Once a colour is chosen, it fills with that colour (the icon stays, so it still reads as "custom").
+ */
+.swatch--custom {
+  position: relative;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  border: 2px dashed var(--muted-2);
+  background: var(--surface);
+  box-shadow: none;
+  color: var(--muted);
+}
+.swatch--custom:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+.swatch--custom[aria-checked="true"] {
+  border: 0;
+  background: var(--swatch);
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--swatch);
+}
+.swatch--custom .ic {
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+.swatch--custom input {
+  /* invisible, but covers the swatch: a tap goes straight to the system colour picker */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.swatch--custom:has(input:focus-visible) {
+  outline: 2px solid var(--brand);
+  outline-offset: 4px;
+}
+
+.switch-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--row-bg);
+  cursor: pointer;
+}
+.switch-row > span:first-child {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+}
+.switch-row small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.switch-row input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.switch {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  flex: none;
+  border-radius: 999px;
+  background: var(--muted-2);
+  transition: background 0.2s;
+}
+.switch::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+.switch-row input:checked + .switch {
+  background: var(--brand);
+}
+.switch-row input:checked + .switch::after {
+  transform: translateX(18px);
+}
+.switch-row input:disabled + .switch {
+  opacity: 0.6;
+}
+.switch-row input:focus-visible + .switch {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.car-form__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 4px;
+}
+.car-form__actions {
+  display: flex;
+  gap: 8px;
+}
+.car-form__confirm {
+  font-size: 14px;
+}
+
+/* Phones: a tighter editor, so the whole form fits the sheet without scrolling */
+@media (max-width: 899px) {
+  .car-form {
+    gap: 12px;
+  }
+  .car-form .field {
+    gap: 4px;
+  }
+  .car-form .field__input {
+    height: 42px;
+  }
+  .car-form__preview {
+    padding: 8px 12px;
+  }
+  .car-form__preview .car-avatar {
+    width: 40px;
+    height: 40px;
+  }
+  .car-form .switch-row {
+    padding: 10px 12px;
+  }
+}
+
+/* ---------- Picker ---------- */
+.pick-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pick {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  color: var(--text);
+  font-family: var(--font);
+  text-align: left;
+  cursor: pointer;
+}
+.pick:hover,
+.pick:focus-visible {
+  background: var(--row-bg);
+  outline: none;
+}
+.pick[aria-checked="true"] {
+  background: var(--accent-soft);
+}
+.pick .car-avatar {
+  width: 36px;
+  height: 36px;
+}
+.pick-check {
+  color: var(--accent-text);
+}
+.pick-foot {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 6px 2px;
+  border-top: 1px solid var(--border);
+}

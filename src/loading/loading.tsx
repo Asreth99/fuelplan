@@ -8,7 +8,7 @@ export default function Loading() {
       top={0}
       w="100vw"
       h="100vh"
-      backgroundColor="white"
+      backgroundColor="#0a3d33"
       zIndex={99999}
     >
       <VStack>
@@ -16,9 +16,11 @@ export default function Loading() {
           boxSize={"6vh"}
           animationDuration={"0.8s"}
           borderWidth={"4px"}
-          color={"#525f70"}
+          color={"#c6f36b"}
         />
-        <Text color={"#525f70"} fontWeight={'bold'}>Loading...</Text>
+        <Text color={"#ffffff"} fontWeight={"bold"} fontFamily={"var(--font)"}>
+          Loading...
+        </Text>
       </VStack>
     </Center>
   );

@@ -1,7 +1,6 @@
 html,
 body,
-#root,
-.App {
+#root {
   height: var(--app-height);
   min-height: var(--app-height);
   width: 100vw;
@@ -9,63 +8,45 @@ body,
   margin: 0;
 }
 
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+}
+
+/* 16px stops iOS Safari from zooming into a focused field */
 input,
 textarea,
 select {
   font-size: 16px;
 }
 
-.ps-submenu-content {
-  overflow: hidden !important;
-}
-
-.button {
-  background-color: #525f70;
-  color: white;
-  border-color: black;
-}
-
-.card {
-  background-color: white;
-  color: black;
-}
-
-.pac-container {
-  z-index: 99999 !important;
-}
-
-.calculator-field {
-  color: black;
-}
-
-.autocomplete-field {
-  color: black;
-}
-
-[data-rsbs-root] {
-  border-radius: 10vh;
+.app {
+  position: fixed;
+  inset: 0;
   overflow: hidden;
 }
 
-.chakra-number-input__input[data-invalid] {
-  border-color: #e2e8f0 !important;
-  box-shadow: none !important;
+/* Google's place suggestions under the route fields, in dark mode */
+html.dark .pac-container {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow);
+}
+html.dark .pac-item {
+  color: var(--muted);
+  border-top-color: var(--border);
+}
+html.dark .pac-item-query {
+  color: var(--text);
+}
+html.dark .pac-item:hover,
+html.dark .pac-item-selected {
+  background: var(--row-bg);
 }
 
+/* The map fills the screen next to the menu; the panel / route card and bottom sheet float above it. */
 .map-container {
-  height: calc(var(--app-height) - 70px);
-  width: 100vw;
-  box-sizing: border-box;
-}
-
-@media (min-width: 901px) {
-  .map-container {
-    height: 100vh;
-  }
-}
-
-@media (max-width: 600px) {
-  .autocomplete-card {
-    width: 90vw;
-  }
+  position: absolute;
+  inset: 0 0 var(--tab-bar-h) var(--rail-w);
 }

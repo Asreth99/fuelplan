@@ -1,0 +1,153 @@
+.main-nav {
+  position: fixed;
+  z-index: 8;
+  display: flex;
+  font-family: var(--font);
+}
+.main-nav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: none;
+  font: 650 11px var(--font);
+  cursor: pointer;
+}
+.main-nav__pill {
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+}
+.main-nav__avatar {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--pop);
+  color: var(--brand-dark);
+  font: 800 11px var(--font);
+}
+
+/* ---------- Desktop: dark rail on the left ---------- */
+.main-nav--rail {
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--rail-w);
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 0;
+  box-sizing: border-box;
+  background: var(--brand-dark);
+}
+.main-nav__logo {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  background: var(--pop);
+  color: var(--brand-dark);
+}
+.main-nav__logo .ic {
+  width: 24px;
+  height: 24px;
+}
+.main-nav--rail .main-nav__item {
+  width: 68px;
+  padding: 10px 0;
+  border-radius: 14px;
+  color: rgba(255, 255, 255, 0.72);
+}
+.main-nav--rail .main-nav__item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.main-nav--rail .main-nav__item[aria-current="page"] {
+  background: var(--pop);
+  color: var(--brand-dark);
+}
+.main-nav--rail [aria-current="page"] .main-nav__avatar {
+  background: var(--brand-dark);
+  color: var(--pop);
+}
+.main-nav__spacer {
+  flex: 1;
+}
+
+/* ---------- Phones: tab bar at the bottom ---------- */
+.main-nav--tabs {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--tab-bar-h);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-sizing: border-box;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+.main-nav--tabs .main-nav__item {
+  flex: 1;
+  justify-content: center;
+  color: var(--muted);
+}
+.main-nav--tabs .main-nav__pill {
+  height: 30px;
+  padding: 0 18px;
+}
+.main-nav--tabs .main-nav__item[aria-current="page"] {
+  color: var(--text);
+}
+.main-nav--tabs [aria-current="page"] .main-nav__pill {
+  background: var(--brand-dark);
+  color: var(--pop);
+}
+.main-nav--tabs .main-nav__avatar {
+  width: 22px;
+  height: 22px;
+  font-size: 10px;
+}
+
+/* ---------- Cars and Profile screens ---------- */
+.side-view {
+  position: absolute;
+  left: calc(var(--rail-w) + 16px);
+  top: 16px;
+  bottom: 16px;
+  z-index: 3;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-family: var(--font);
+  color: var(--text);
+}
+@media (max-width: 899px) {
+  /* Full screen above the tab bar, covering the map and the trip sheet (which stay mounted) */
+  .side-view {
+    position: fixed;
+    inset: 0 0 var(--tab-bar-h) 0;
+    z-index: 7;
+    width: auto;
+    padding: calc(20px + env(safe-area-inset-top, 0px)) 16px 20px;
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--bg);
+  }
+  .side-view .car-tile,
+  .side-view .profile-row,
+  .side-view .field__input,
+  .side-view .btn--secondary {
+    background: var(--surface);
+    box-shadow: 0 2px 8px rgba(10, 61, 51, 0.06);
+  }
+}

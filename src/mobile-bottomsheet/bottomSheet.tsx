@@ -1,128 +1,62 @@
-import { useEffect, useRef, useState } from "react";
-import { BottomSheet, BottomSheetRef } from "react-spring-bottom-sheet";
-import AutocompleteForm from "../googleMap/autocompleteForm";
-import Calculator from "../calculator/calculator";
+import { useEffect, useState } from "react";
+import { BottomSheet } from "react-spring-bottom-sheet";
+import RouteCard, { RouteCardProps } from "../routeCard/routeCard";
+import RouteSummary from "../routeSummary/routeSummary";
+import { RouteChoice } from "../routeSummary/routeTotals";
+import TripDetails from "../tripDetails/tripDetails";
 
 import "react-spring-bottom-sheet/dist/style.css";
-import { Button, Center } from "@chakra-ui/react";
+import "./bottomSheet.css";
 
-type bottomSheetProps = {
-  origin: string;
-  setOrigin: (v: string) => void;
-  destination: string;
-  setDestination: (v: string) => void;
-  directions: google.maps.DirectionsResult | null;
-  onSubmit: () => void;
-  setFromLocation: (v: { lat?: number; lng?: number }) => void;
+// Map controls (e.g. Find my location) are placed in this slot, which floats just above the sheet.
+export const SHEET_MAP_CONTROLS_CLASS = "sheet-map-controls";
 
-  avoidFerries: boolean;
-  setAvoidFerries: (v: boolean) => void;
-  avoidHighways: boolean;
-  setAvoidHighways: (v: boolean) => void;
-  avoidTolls: boolean;
-  setAvoidTolls: (v: boolean) => void;
+// The sheet opens at its peek: the route summary and the cost, so most of the screen stays map.
+// Dragged up, it stops at 75% of the screen (sheet and tab bar together), never over the route card.
+const PEEK_HEIGHT = 140;
+const MAX_SCREEN_SHARE = 0.75;
+
+type Props = {
+  route: RouteCardProps;
+  routes: RouteChoice;
 };
-export default function MobileBottomSheet({
-  origin,
-  setOrigin,
-  destination,
-  setDestination,
-  directions,
-  setFromLocation,
-  onSubmit,
-  avoidFerries,
-  setAvoidFerries,
-  avoidHighways,
-  setAvoidHighways,
-  avoidTolls,
-  setAvoidTolls,
-}: bottomSheetProps) {
-  const [open] = useState(true);
-  const [mode, setMode] = useState<"search" | "calculate">("search");
-  const sheetRef = useRef<BottomSheetRef>(null);
 
-  const snapPoints = ({ maxHeight }: { maxHeight: number }) => [
-    maxHeight * 0.15,
-    maxHeight * 0.5,
-    maxHeight,
-  ];
-
+// The sheet sits on top of the tab bar, so it can grow up to the screen height minus the tab bar.
+function useHeightAboveTabBar() {
+  const measure = () =>
+    window.innerHeight - (document.querySelector(".main-nav--tabs")?.getBoundingClientRect().height ?? 0);
+  const [height, setHeight] = useState(measure);
   useEffect(() => {
-    if (sheetRef.current) {
-      if (mode === "search") {
-        sheetRef.current.snapTo(({ maxHeight }) => maxHeight * 0.5);
-      } else if (mode === "calculate") {
-        sheetRef.current.snapTo(({ maxHeight }) => maxHeight * 1.0);
-      } else {
-        sheetRef.current.snapTo(({ maxHeight }) => maxHeight * 0.1);
-      }
-    }
-  }, [mode]);
+    const update = () => setHeight(measure());
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  return height;
+}
 
+export default function MobileBottomSheet({ route, routes }: Props) {
+  const maxHeight = useHeightAboveTabBar();
   return (
     <>
+      <RouteCard {...route} className="route-card--floating" />
       <BottomSheet
-        ref={sheetRef}
-        open={open}
-        snapPoints={snapPoints}
-        defaultSnap={({ snapPoints }) => snapPoints[1]}
-        maxHeight={600}
-        expandOnContentDrag={true}
+        open
         blocking={false}
+        expandOnContentDrag
+        maxHeight={maxHeight}
+        snapPoints={({ maxHeight }) => {
+          const tabBar = window.innerHeight - maxHeight;
+          return [PEEK_HEIGHT, Math.max(window.innerHeight * MAX_SCREEN_SHARE - tabBar, PEEK_HEIGHT)];
+        }}
+        defaultSnap={({ snapPoints }) => snapPoints[0]}
+        // The header never scrolls, so the route summary stays in view.
+        header={<RouteSummary routes={routes} />}
+        sibling={<div className={SHEET_MAP_CONTROLS_CLASS} />}
       >
-        <Center>
-          <Button
-            onClick={() => setMode("search")}
-            bg={mode === "search" ? "gray.100" : "transparent"}
-          >
-            <span
-              className="material-symbols-outlined"
-              style={{ fontSize: 30, color: "black" }}
-            >
-              search
-            </span>
-          </Button>
-
-          <Button
-            onClick={() => setMode("calculate")}
-            bg={mode === "calculate" ? "gray.100" : "transparent"}
-          >
-            <span
-              className="material-symbols-outlined"
-              style={{ fontSize: 30, color: "black" }}
-            >
-              calculate
-            </span>
-          </Button>
-        </Center>
-        {mode === "search" && (
-          <AutocompleteForm
-            origin={origin}
-            setOrigin={setOrigin}
-            destination={destination}
-            setDestination={setDestination}
-            setFromLocation={setFromLocation}
-            avoidFerries={avoidFerries}
-            setAvoidFerries={setAvoidFerries}
-            avoidHighways={avoidHighways}
-            setAvoidHighways={setAvoidHighways}
-            avoidTolls={avoidTolls}
-            setAvoidTolls={setAvoidTolls}
-            onSubmit={() => {
-              onSubmit();
-              setMode("search");
-            }}
-          />
-        )}
-        {mode === "calculate" && (
-          <Calculator
-            directions={directions}
-            origin={origin}
-            setOrigin={setOrigin}
-            destination={destination}
-            setDestination={setDestination}
-          />
-        )}
+        <div className="sheet-content">
+          <TripDetails routes={routes} />
+        </div>
       </BottomSheet>
     </>
   );

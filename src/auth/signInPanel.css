@@ -1,0 +1,153 @@
+.signin {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.signin__title {
+  margin: 4px 0 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.signin__text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.signin__error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--danger-soft);
+  color: var(--danger-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+/* Google's branded "Sign in with Google" button, dark pill: the G on a white circle, Roboto label */
+.google-btn {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 52px;
+  border: 0;
+  border-radius: 999px;
+  background: #1f1f1f;
+  color: #fff;
+  font: 500 15px Roboto, var(--font);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+}
+.google-btn:hover {
+  background: #333;
+}
+/* On a dark background Google's dark button gets its light grey outline */
+html.dark .google-btn {
+  box-shadow: inset 0 0 0 1px #8e918f;
+}
+.google-btn:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.google-btn__logo {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+}
+.google-btn__logo svg {
+  width: 20px;
+  height: 20px;
+}
+.google-btn:disabled,
+.signin .btn:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+.signin__or {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+.signin__or::before,
+.signin__or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.signin__email {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.signin__email .btn,
+.signin__submit {
+  width: 100%;
+  height: 46px;
+}
+.signin__legal {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.signin__legal a {
+  color: var(--accent-text);
+  font-weight: 700;
+}
+
+.signin-sent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  text-align: center;
+}
+.signin-sent__art {
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+.signin-sent__art .ic {
+  width: 38px;
+  height: 38px;
+  stroke-width: 1.5;
+}
+.signin-sent h2 {
+  margin: 0;
+  font-size: 19px;
+}
+.signin-sent p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.signin-sent p b {
+  color: var(--text);
+}
+.signin-sent__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}

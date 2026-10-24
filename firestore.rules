@@ -1,0 +1,32 @@
+rules_version = '2';
+
+// Saved cars: users/{uid}/cars/{carId} and users/{uid}.defaultCarId. Only the owner can read or
+// write them. The limits match validateCar() in src/cars/carRepository.ts.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function validCar(car) {
+      return car.keys().hasOnly(['name', 'fuel', 'consumption', 'color', 'createdAt', 'updatedAt'])
+        && car.name is string && car.name.size() > 0 && car.name.size() <= 30
+        && car.fuel in ['petrol95', 'diesel']
+        && car.consumption is number && car.consumption >= 1 && car.consumption <= 40
+        && car.color is string && car.color.matches('^#[0-9a-fA-F]{6}$')
+        && car.createdAt is timestamp && car.updatedAt is timestamp;
+    }
+
+    match /users/{uid} {
+      allow read, delete: if isOwner(uid);
+      allow create, update: if isOwner(uid)
+        && request.resource.data.keys().hasOnly(['defaultCarId'])
+        && (request.resource.data.defaultCarId == null || request.resource.data.defaultCarId is string);
+
+      match /cars/{carId} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid) && validCar(request.resource.data);
+      }
+    }
+  }
+}

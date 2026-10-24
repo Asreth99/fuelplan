@@ -1,0 +1,37 @@
+/* Floating panel over the map, next to the menu rail */
+.desktop-panel {
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  left: calc(var(--rail-w) + 16px);
+  z-index: 2;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  pointer-events: none; /* the empty area below the cards belongs to the map */
+  font-family: var(--font);
+}
+.desktop-panel[hidden] {
+  display: none;
+}
+.desktop-panel > * {
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+
+.desktop-panel__trip {
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.desktop-panel__trip .route-summary {
+  margin-bottom: 14px;
+}
+/* On desktop the inputs come first and the cost closes the card */
+.desktop-panel__trip .trip__cost {
+  order: 1;
+}

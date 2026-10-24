@@ -1,0 +1,192 @@
+.route-card {
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-family: var(--font);
+  color: var(--text);
+}
+
+.route-card__stops {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+/* Connector between the start and end markers */
+.route-card__stops::before {
+  content: "";
+  position: absolute;
+  left: 10.5px;
+  top: 22px;
+  bottom: 22px;
+  border-left: 3px solid var(--accent-soft);
+}
+
+.route-card__stop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--radius-sm);
+}
+/*
+ * The row being dragged lifts above the others and follows the pointer.
+ * The padding gives the lifted card some air; the equal negative margin keeps the layout still.
+ */
+.route-card__stop--dragging {
+  z-index: 2;
+  margin: -6px -8px;
+  padding: 6px 8px;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 10px 24px rgba(10, 61, 51, 0.22);
+}
+.route-card__mark {
+  position: relative;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.route-card__mark::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  box-sizing: border-box;
+  border-radius: 50%;
+}
+.route-card__mark--start::before {
+  border: 3px solid var(--brand);
+  background: var(--surface);
+}
+.route-card__mark--stop::before {
+  width: 10px;
+  height: 10px;
+  border: 3px solid var(--text);
+  background: var(--surface);
+}
+.route-card__mark--end::before {
+  background: var(--brand-dark);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+}
+
+.route-card__field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+.route-card__input {
+  width: 100%;
+  height: 42px;
+  padding: 0 40px 0 14px; /* room for the drag handle inside the field */
+  box-sizing: border-box;
+  border: 1px solid var(--field);
+  border-radius: var(--radius-sm);
+  background: var(--field);
+  color: var(--text);
+  font: 500 16px var(--font);
+  outline: none;
+}
+/* "Your location", in the same blue as the location dot */
+.route-card__input--my-location {
+  color: #1e5eff;
+  font-weight: 650;
+}
+.route-card__input::placeholder {
+  color: var(--muted);
+}
+.route-card__input:focus {
+  border-color: var(--brand);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Drag handle, inside the right end of the field */
+.route-card__handle {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--muted-2);
+  cursor: grab;
+  touch-action: none; /* the finger drags the row instead of scrolling the page */
+}
+.route-card__handle:hover,
+.route-card__handle:focus-visible {
+  color: var(--text);
+  background: var(--surface);
+}
+.route-card__stop--dragging .route-card__handle {
+  cursor: grabbing;
+  color: var(--brand);
+}
+.route-card__handle .ic {
+  width: 18px;
+  height: 18px;
+}
+
+.route-card__add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 0 28px;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--accent-text);
+  font: 700 13px var(--font);
+  cursor: pointer;
+}
+.route-card__add:hover {
+  background: var(--accent-soft);
+}
+.route-card__add .ic {
+  width: 16px;
+  height: 16px;
+}
+
+.route-card__chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.route-card__chips-label {
+  flex: none;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.route-card__status {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+.route-card__status--error {
+  color: var(--danger);
+}
+
+/* Google Places suggestions must appear above the panels and the bottom sheet */
+.pac-container {
+  z-index: 99999 !important;
+  border-radius: 14px;
+  margin-top: 4px;
+  font-family: var(--font);
+  box-shadow: var(--shadow);
+}

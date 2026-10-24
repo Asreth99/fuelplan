@@ -1,0 +1,134 @@
+/* A slimmer route card on phones, so more of the map stays visible */
+.route-card--floating {
+  position: fixed;
+  top: calc(8px + env(safe-area-inset-top, 0px));
+  left: 8px;
+  right: 8px;
+  z-index: 5;
+  padding: 6px 8px 6px 4px;
+  border-radius: 20px;
+}
+.route-card--floating .route-card__stops {
+  gap: 3px;
+}
+.route-card--floating .route-card__input {
+  height: 34px; /* text stays 16px so iOS doesn't zoom into the field */
+  border-radius: 11px;
+}
+.route-card--floating .route-card__add {
+  margin-top: 1px;
+  padding: 2px 10px;
+  font-size: 12px;
+}
+.route-card--floating .route-card__chips {
+  gap: 6px;
+  margin-top: 4px;
+  padding-left: 4px;
+}
+.route-card--floating .chip {
+  height: 26px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+.route-card--floating .route-card__status {
+  margin-top: 6px;
+  padding-left: 4px;
+}
+
+[data-rsbs-overlay] {
+  --rsbs-bg: var(--surface);
+  --rsbs-handle-bg: var(--muted-2);
+  --rsbs-overlay-rounded: var(--radius-lg);
+  box-shadow: 0 -8px 30px rgba(10, 61, 51, 0.12);
+  z-index: 6; /* above the route card and the map controls */
+  bottom: var(--tab-bar-h); /* sits on the tab bar */
+}
+[data-rsbs-root]::after {
+  bottom: var(--tab-bar-h);
+}
+
+/* On the Cars and Profile screens the trip stays mounted (so it's kept) but out of sight and reach. */
+body:not([data-view="plan"]) .route-card--floating,
+body:not([data-view="plan"]) [data-rsbs-root] {
+  visibility: hidden;
+}
+
+/* The drag header holds the route summary */
+[data-rsbs-header] {
+  padding-bottom: 10px;
+}
+[data-rsbs-header] .route-summary {
+  margin-top: 6px;
+}
+
+.sheet-content {
+  padding: 0 16px 20px;
+}
+
+/*
+ * The live cost stays in view while the inputs below it scroll.
+ * The library's overflow:hidden on the content wrapper would block position:sticky;
+ * flow-root keeps what it needs (child margins included in its height measurement).
+ */
+[data-rsbs-content] {
+  overflow: visible;
+  display: flow-root;
+}
+.sheet-content .trip__cost {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 10px 14px 12px;
+  border-radius: 20px;
+  box-shadow: 0 -16px 0 var(--surface), 0 8px 18px rgba(10, 61, 51, 0.18);
+}
+
+/* A more compact cost card on phones, so it fits the sheet's small peek: a small One way /
+   Round trip switch sits on the "Fuel cost" line, and the cost spans the card below it. */
+.sheet-content .trip__cost {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+.sheet-content .trip__cost > * {
+  grid-column: 1 / -1;
+}
+.sheet-content .trip__cost > .trip__cost-label {
+  grid-column: 1;
+  grid-row: 1;
+}
+.sheet-content .trip__seg {
+  grid-column: 2;
+  grid-row: 1;
+  width: 168px;
+  margin: 0;
+}
+.sheet-content .trip__seg button {
+  height: 26px;
+  font-size: 12px;
+}
+.sheet-content .trip__cost-label {
+  font-size: 11px;
+}
+.sheet-content .trip__cost-value {
+  font-size: 36px;
+}
+.sheet-content .trip__cost-detail,
+.sheet-content .trip__cost-hint {
+  font-size: 13px;
+}
+
+/*
+ * --rsbs-overlay-h is the sheet's live height, set by react-spring-bottom-sheet on its root.
+ * The controls ride on top of the sheet up to half the screen, then stay put and the sheet
+ * (z-index 6) slides over them.
+ */
+.sheet-map-controls {
+  position: fixed;
+  right: 0;
+  bottom: min(
+    calc(var(--rsbs-overlay-h, 0px) + var(--tab-bar-h)),
+    calc(var(--app-height, 100vh) * 0.5)
+  );
+  z-index: 4;
+}

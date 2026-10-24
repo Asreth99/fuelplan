@@ -17,6 +17,15 @@ export function calculateFuelCost(
   return litersNeeded * num(price);
 }
 
+// Keeps only digits and the first decimal separator (comma or point).
+export function toDecimalInput(value: string) {
+  const cleaned = value.replace(/[^\d.,]/g, "");
+  const separator = cleaned.search(/[.,]/);
+  return separator < 0
+    ? cleaned
+    : cleaned.slice(0, separator + 1) + cleaned.slice(separator + 1).replace(/[.,]/g, "");
+}
+
 export async function getFuelPrice() {
   const test = process.env.REACT_APP_PROD_SERVER_URL;
   console.log("Server URL: " + test);

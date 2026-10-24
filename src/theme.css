@@ -1,0 +1,280 @@
+/* FuelPlan design tokens: "Bold & friendly", Fuel Green palette (see planning/directions/b-bold.html). */
+:root {
+  --brand-dark: #0a3d33;
+  --brand: #0e8a6d;
+  --pop: #c6f36b;
+
+  --font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --bg: #eef4f1;
+  --text: #10241f;
+  --muted: #55706a;
+  --muted-2: #a9c2bb;
+  --danger: #c2410c;
+  --danger-text: #9a3412; /* danger text on a soft danger background */
+  --danger-soft: rgba(194, 65, 12, 0.06);
+  --warning: #a15c07;
+
+  --surface: #ffffff;
+  --border: #e1ebe7;
+  --field: #eef5f2;
+  --row-bg: #f5f9f7;
+
+  --accent-soft: #d5f2e8;
+  --accent-text: #0a6e56;
+
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --shadow: 0 10px 30px rgba(10, 61, 51, 0.14);
+
+  /* Main menu: a rail on desktop, a tab bar on phones (see navigation/mainNav.css) */
+  --rail-w: 0px;
+  --tab-bar-h: calc(68px + env(safe-area-inset-bottom, 0px));
+}
+@media (min-width: 900px) {
+  :root {
+    --rail-w: 84px;
+    --tab-bar-h: 0px;
+  }
+}
+
+/*
+ * Dark mode: next-themes (the Chakra provider) puts class="dark" on <html>, following the system
+ * setting or the user's choice in Profile → Appearance. public/index.html sets it before the
+ * first paint, so a dark-mode user never sees a white flash.
+ * --brand-dark, --brand and --pop stay: the dark-green cards and lime buttons work on both.
+ */
+:root.dark {
+  --bg: #0a1311;
+  --text: #e3efeb;
+  --muted: #94ada6;
+  --muted-2: #4a625b;
+  --danger: #e8673a;
+  --danger-text: #ff9e7d;
+  --danger-soft: rgba(232, 103, 58, 0.1);
+  --warning: #f2b450;
+
+  --surface: #121e1b;
+  --border: #22332e;
+  --field: #1a2925;
+  --row-bg: #172521;
+
+  --accent-soft: #19392f;
+  --accent-text: #7ad9b4;
+
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- Shared building blocks ---------- */
+.ic {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Segmented toggle: a group of buttons using aria-pressed */
+.seg {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  padding: 3px;
+  border-radius: 14px;
+  background: var(--field);
+}
+.seg button {
+  height: 34px;
+  border: 0;
+  border-radius: 11px;
+  background: none;
+  color: var(--muted);
+  font: 650 13px var(--font);
+  cursor: pointer;
+}
+.seg button[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14);
+}
+
+/* Toggle chip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  flex: none;
+  border: 0;
+  border-radius: 999px;
+  background: var(--field);
+  color: var(--text);
+  font: 600 13px var(--font);
+  cursor: pointer;
+}
+.chip .ic {
+  width: 16px;
+  height: 16px;
+}
+.chip[aria-pressed="true"] {
+  background: var(--brand-dark);
+  color: #fff;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+.icon-btn:hover {
+  background: var(--field);
+  color: var(--text);
+}
+.icon-btn:active {
+  transform: scale(0.9);
+}
+/* Busy state, e.g. while fetching prices */
+.icon-btn--spinning {
+  color: var(--brand);
+  cursor: progress;
+}
+.icon-btn--spinning .ic {
+  animation: icon-spin 0.9s linear infinite;
+}
+@keyframes icon-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .icon-btn--spinning .ic {
+    animation-duration: 2.5s;
+  }
+}
+
+/* Buttons, text links and form fields (dialogs, Cars, Profile) */
+.btn {
+  height: 44px;
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 999px;
+  font: 700 14px var(--font);
+  cursor: pointer;
+}
+.btn .ic {
+  width: 18px;
+  height: 18px;
+}
+.btn--primary {
+  background: var(--pop);
+  color: var(--brand-dark);
+}
+.btn--secondary {
+  background: var(--field);
+  color: var(--text);
+}
+.btn--danger {
+  background: var(--danger);
+  color: #fff;
+}
+.btn--danger:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn--danger-text {
+  padding: 0 8px;
+  background: none;
+  color: var(--danger);
+}
+.btn:disabled {
+  cursor: default;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--accent-text);
+  font: 700 13px var(--font);
+  cursor: pointer;
+}
+.link:hover:not(:disabled) {
+  background: var(--accent-soft);
+}
+.link:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+.link .ic {
+  width: 16px;
+  height: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field__label {
+  font-size: 13px;
+  font-weight: 700;
+}
+.field__input {
+  height: 46px;
+  padding: 0 14px;
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--field);
+  color: var(--text);
+  font: 600 16px var(--font);
+  outline: none;
+}
+.field__input:focus,
+.field__input:focus-within {
+  border-color: var(--brand);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.field__input[aria-invalid="true"],
+.field__input:has([aria-invalid="true"]) {
+  border-color: var(--danger);
+}
+.field__hint {
+  color: var(--muted);
+  font-size: 12px;
+}
+.field__error {
+  color: var(--danger);
+  font-size: 12px;
+  font-weight: 600;
+}
