@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FuelPlan redesign — B palettes</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --text: #1d2321; --muted: #5d6663; --border: #e3e7e5; --bg: #f5f6f5; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: var(--text); background: var(--bg); }
+  main { max-width: 1320px; margin: 0 auto; padding: 40px 20px 80px; }
+  h1 { font-size: 32px; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .lead { color: var(--muted); font-size: 16px; max-width: 780px; line-height: 1.55; margin: 0 0 12px; }
+  .lead a { color: inherit; font-weight: 700; }
+  .roles { display: flex; flex-wrap: wrap; gap: 18px; margin: 18px 0 32px; font-size: 14px; color: var(--muted); }
+  .roles b { color: var(--text); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 600px), 1fr)); gap: 24px; }
+  .palette { background: #fff; border: 1px solid var(--border); border-radius: 22px; padding: 20px; }
+  .head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .head h2 { margin: 0; font-size: 20px; }
+  .head a { font-weight: 700; color: var(--text); text-decoration: none; border-bottom: 2px solid currentColor; font-size: 14px; }
+  .mood { color: var(--muted); margin: 0 0 14px; font-size: 14px; }
+  .swatches { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .swatch { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+  .swatch span { width: 28px; height: 28px; border-radius: 9px; border: 1px solid rgba(0,0,0,.08); }
+  .swatch code { font-size: 12px; color: var(--text); }
+  .shots { display: grid; grid-template-columns: minmax(0, 3.2fr) minmax(0, 1fr); gap: 10px; align-items: start; }
+  .shots img { width: 100%; display: block; border-radius: 10px; border: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Direction B: colour palettes</h1>
+  <p class="lead">
+    The same "Bold &amp; friendly" design in six palettes. Each palette is just three colours; every other tint is derived from them automatically.
+    You can also switch palettes live: open <a href="fuelplan.html">the prototype</a> and use the round swatches in the corner.
+  </p>
+  <div class="roles">
+    <span><b>Dark</b>: cost card, side rail, pins</span>
+    <span><b>Brand</b>: route line, icons, accents</span>
+    <span><b>Pop</b>: cost number, main button, active states</span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</main>
+<script>
+  const PALETTES = [
+    ["fuel-green", "Fuel green", "Fresh, eco, energetic. The original.", "#0a3d33", "#0e8a6d", "#c6f36b"],
+    ["petrol-sun", "Petrol & sun", "Trustworthy blue with a sunny highlight, like a road-trip sticker.", "#0b2a4a", "#1f6feb", "#ffd23f"],
+    ["plum-coral", "Plum & coral", "Warm and playful; stands out from every other map app.", "#3b1340", "#e8553d", "#ffc65c"],
+    ["violet-mint", "Violet & mint", "Modern and techy, fintech-style.", "#251c5c", "#6a4cf5", "#7ef0c4"],
+    ["teal-peach", "Teal & peach", "Soft and calm, the friendliest of the six.", "#073b45", "#0a9396", "#ffb48f"],
+    ["graphite-orange", "Graphite & orange", "Sporty and automotive, like a fuel-station sign.", "#1d2228", "#f26419", "#ffd84d"],
+  ];
+  document.getElementById("grid").innerHTML = PALETTES.map(([id, name, mood, dark, brand, pop]) => `
+    <section class="palette">
+      <div class="head"><h2>${name}</h2><a href="fuelplan.html?palette=${id}">Open live →</a></div>
+      <p class="mood">${mood}</p>
+      <div class="swatches">
+        ${[["Dark", dark], ["Brand", brand], ["Pop", pop]].map(([role, hex]) =>
+          `<div class="swatch"><span style="background:${hex}"></span><div>${role}<br><code>${hex}</code></div></div>`).join("")}
+      </div>
+      <div class="shots">
+        <img src="../screenshots/palettes/${id}-desktop.png" alt="${name} on desktop" loading="lazy">
+        <img src="../screenshots/palettes/${id}-mobile.png" alt="${name} on a phone" loading="lazy">
+      </div>
+    </section>`).join("");
+</script>
+</body>
+</html>

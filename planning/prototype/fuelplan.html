@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FuelPlan — B. Bold &amp; friendly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../prototype-code/layout.css">
+<style>
+  /*
+   * Direction B: a confident brand, big rounded cards, the cost as a coloured hero card.
+   * The whole palette comes from three colours; every tint below is derived from them.
+   *   --brand-dark  cost card, rail, pins, text tint
+   *   --brand       route, accents, icons
+   *   --pop         the highlight: cost number, primary button, active states
+   */
+  :root {
+    --brand-dark: #0a3d33;
+    --brand: #0e8a6d;
+    --pop: #c6f36b;
+  }
+  [data-palette="petrol-sun"]  { --brand-dark: #0b2a4a; --brand: #1f6feb; --pop: #ffd23f; }
+  [data-palette="plum-coral"]  { --brand-dark: #3b1340; --brand: #e8553d; --pop: #ffc65c; }
+  [data-palette="violet-mint"] { --brand-dark: #251c5c; --brand: #6a4cf5; --pop: #7ef0c4; }
+  [data-palette="teal-peach"]  { --brand-dark: #073b45; --brand: #0a9396; --pop: #ffb48f; }
+  [data-palette="graphite-orange"] { --brand-dark: #1d2228; --brand: #f26419; --pop: #ffd84d; }
+
+  :root, [data-palette] {
+    --font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    --bg: color-mix(in srgb, var(--brand) 7%, #f7f8f7);
+    --text: color-mix(in srgb, var(--brand-dark) 75%, #000);
+    --muted: color-mix(in srgb, var(--brand-dark) 60%, #9aa0a0);
+    --muted-2: color-mix(in srgb, var(--brand) 30%, #c9cfcd);
+
+    --surface: #ffffff;
+    --surface-solid: #ffffff;
+    --card-border: transparent;
+    --border: color-mix(in srgb, var(--brand) 12%, #eceeed);
+    --field: color-mix(in srgb, var(--brand) 8%, #f6f7f6);
+    --field-border: var(--field);
+    --chip-bg: var(--field);
+    --row-bg: color-mix(in srgb, var(--brand) 5%, #fbfbfb);
+
+    --accent: var(--brand);
+    --accent-soft: color-mix(in srgb, var(--brand) 18%, #fff);
+    --accent-text: color-mix(in srgb, var(--brand) 80%, #000);
+    --on-accent: #ffffff;
+
+    --radius-sm: 14px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
+    --shadow: 0 10px 30px color-mix(in srgb, var(--brand-dark) 16%, transparent);
+
+    --rail-bg: var(--brand-dark);
+    --rail-text: #ffffff;
+    --rail-muted: color-mix(in srgb, #fff 62%, var(--brand-dark));
+    --rail-active: var(--brand-dark);
+    --rail-active-bg: var(--pop);
+
+    --locate-halo: #e3eafd;
+    --locate-dot: #1e5eff;
+
+    --map-land: color-mix(in srgb, var(--brand) 6%, #f1f2ee);
+    --map-park: color-mix(in srgb, var(--brand) 10%, #d4e9d2);
+    --map-water: color-mix(in srgb, var(--brand) 12%, #b6dcea);
+    --map-road: #ffffff;
+    --map-major: #ffffff;
+    --map-major-casing: color-mix(in srgb, var(--brand) 18%, #d3d8d6);
+    --map-route: var(--brand);
+    --map-route-casing: #ffffff;
+    --map-pin: var(--brand-dark);
+    --map-label: var(--text);
+  }
+
+  /* Signature: rows as separate soft tiles instead of a bordered list */
+  .rows { border: 0; gap: 8px; overflow: visible; }
+  .row { border-radius: var(--radius-sm); }
+  .row + .row { border-top: 0; }
+  .row-ic { background: #ffffff; border-radius: 12px; }
+
+  .brand { background: var(--pop); color: var(--brand-dark); }
+  .lang { border-color: rgba(255, 255, 255, 0.2); }
+  .lang .on { background: var(--pop); color: var(--brand-dark); }
+  .chip { border-color: transparent; }
+  .chip[aria-pressed="true"] { background: var(--brand-dark); border-color: var(--brand-dark); color: #fff; }
+  .stops::before { border-left: 3px solid var(--accent-soft); left: 10.5px; }
+  .m-route-casing { stroke-width: 16; }
+  .m-route { stroke-width: 8; }
+
+  /* Signature: the cost is a big dark brand card */
+  .cost {
+    background: var(--brand-dark); color: #fff; border-radius: 24px; padding: 14px;
+    gap: 14px; position: relative; overflow: hidden;
+  }
+  .cost::after {
+    content: ""; position: absolute; right: -40px; top: -40px; width: 140px; height: 140px; border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--pop) 35%, transparent), transparent 70%);
+    pointer-events: none; /* decoration only — must not block the toggle underneath */
+  }
+  .cost .seg { background: rgba(255, 255, 255, 0.1); border-radius: 14px; }
+  .cost .seg button { color: rgba(255, 255, 255, 0.75); border-radius: 11px; }
+  .cost .seg button[aria-pressed="true"] { background: var(--pop); color: var(--brand-dark); }
+  .cost-label { color: rgba(255, 255, 255, 0.7); }
+  .cost-value { font-size: 52px; color: var(--pop); letter-spacing: -0.03em; }
+  .cost-pp { color: rgba(255, 255, 255, 0.75); }
+  .cost-pp b { color: #fff; }
+  .btn { border-radius: 999px; }
+  .cost .btn.primary { background: var(--pop); color: var(--brand-dark); }
+  .cost .btn.secondary { background: rgba(255, 255, 255, 0.12); color: #fff; }
+
+  .locate { border-radius: 18px; }
+
+  @media (max-width: 899px) {
+    .cost-value { font-size: 42px; }
+    .tab.active .pill { background: var(--brand-dark); color: var(--pop); }
+  }
+
+  /* Palette switcher (planning aid, not part of the design) */
+  .palette-switcher {
+    position: fixed; top: 16px; right: 16px; z-index: 10; display: flex; gap: 6px; align-items: center;
+    background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(8px); padding: 6px 8px; border-radius: 999px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); font: 600 12px var(--font); color: #333;
+  }
+  .palette-switcher button {
+    width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+    background: conic-gradient(var(--sw-pop) 0 33%, var(--sw-brand) 0 66%, var(--sw-dark) 0);
+  }
+  .palette-switcher button[aria-pressed="true"] { box-shadow: 0 0 0 2px #111; }
+  @media (max-width: 899px) { .palette-switcher { top: auto; bottom: calc(68px + 47% + 14px); right: auto; left: 10px; } }
+</style>
+<link rel="stylesheet" href="../prototype-code/cars.css">
+<link rel="stylesheet" href="../prototype-code/account.css">
+</head>
+<body>
+<script src="../prototype-code/shared.js"></script>
+<script src="../prototype-code/views.js"></script>
+<script src="../prototype-code/account.js"></script>
+<script src="../prototype-code/cars.js"></script>
+<script>
+  const PALETTES = {
+    "fuel-green":      ["#0a3d33", "#0e8a6d", "#c6f36b", "Fuel green"],
+    "petrol-sun":      ["#0b2a4a", "#1f6feb", "#ffd23f", "Petrol & sun"],
+    "plum-coral":      ["#3b1340", "#e8553d", "#ffc65c", "Plum & coral"],
+    "violet-mint":     ["#251c5c", "#6a4cf5", "#7ef0c4", "Violet & mint"],
+    "teal-peach":      ["#073b45", "#0a9396", "#ffb48f", "Teal & peach"],
+    "graphite-orange": ["#1d2228", "#f26419", "#ffd84d", "Graphite & orange"],
+  };
+  const params = new URLSearchParams(location.search);
+  const setPalette = (name) => {
+    document.documentElement.dataset.palette = name;
+    document.querySelectorAll(".palette-switcher button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.palette === name)));
+  };
+
+  // Menu: only features that exist (Plan, Cars), plus the profile at the bottom of the rail / last tab.
+  const updateTrip = bootDirection({ nav: ["plan", "cars"], navBottom: ["profile"] });
+  Modal.init();
+  const openAccountFromUrl = bootAccount();
+  const openCarsFromUrl = bootCars(updateTrip);
+  Views.bindNav();
+  const startView = new URLSearchParams(location.search).get("view") || location.hash.slice(1);
+  Views.show(["plan", "cars", "profile"].includes(startView) ? startView : "plan");
+  // Popups requested in the URL (for screenshots/links) open once the view is on screen.
+  openAccountFromUrl();
+  openCarsFromUrl();
+
+  // ?palette=<name> picks a palette; ?shot hides the switcher for screenshots.
+  if (!params.has("shot")) {
+    document.body.insertAdjacentHTML("beforeend",
+      `<div class="palette-switcher" role="group" aria-label="Palette">${Object.entries(PALETTES).map(([name, [dark, brand, pop, label]]) =>
+        `<button data-palette="${name}" title="${label}" aria-label="${label}" style="--sw-dark:${dark};--sw-brand:${brand};--sw-pop:${pop}"></button>`).join("")}</div>`);
+    document.querySelectorAll(".palette-switcher button").forEach((b) => b.addEventListener("click", () => setPalette(b.dataset.palette)));
+  }
+  setPalette(params.get("palette") || "fuel-green");
+</script>
+</body>
+</html>

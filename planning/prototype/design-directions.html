@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FuelPlan redesign — visual directions</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --text: #1f2328; --muted: #5f6670; --border: #e3e6eb; --bg: #f6f7f9; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Inter", system-ui, sans-serif; color: var(--text); background: var(--bg); }
+  main { max-width: 1320px; margin: 0 auto; padding: 40px 20px 80px; }
+  h1 { font-size: 32px; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .lead { color: var(--muted); font-size: 16px; max-width: 760px; line-height: 1.55; margin: 0 0 32px; }
+  .concept { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 20px 24px; margin-bottom: 40px; }
+  .concept h2 { font-size: 16px; margin: 0 0 10px; }
+  .concept ul { margin: 0; padding-left: 20px; line-height: 1.7; color: #3b4048; }
+  .direction { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-bottom: 28px; }
+  .head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+  .head h2 { margin: 0; font-size: 22px; }
+  .head a { font-weight: 700; color: #1a73e8; text-decoration: none; }
+  .head a:hover { text-decoration: underline; }
+  .tagline { color: var(--muted); margin: 0 0 18px; }
+  .shots { display: grid; grid-template-columns: minmax(0, 3.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+  .shots img { width: 100%; display: block; border-radius: 12px; border: 1px solid var(--border); }
+  .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 18px; font-size: 14px; line-height: 1.55; }
+  .notes h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 0 0 6px; }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .swatches { display: flex; gap: 6px; margin-top: 4px; }
+  .swatches span { width: 26px; height: 26px; border-radius: 8px; border: 1px solid rgba(0,0,0,.08); }
+  @media (max-width: 760px) { .shots { grid-template-columns: 1fr; } .shots img.m { max-width: 320px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>FuelPlan redesign: visual directions</h1>
+  <p class="lead">
+    One key screen (a planned trip with its cost) in three styles, each at phone (390px) and desktop (1440px) size.
+    All three use the same structure and flow; only the visual language differs.
+    The steppers, chips and the one-way/round-trip toggle work in the live versions.
+    Pick one (or a mix), and the full prototype gets built in that style.
+  </p>
+
+  <section class="concept">
+    <h2>Shared concept: what changes compared to today</h2>
+    <ul>
+      <li><b>One flow instead of two tabs:</b> route → car → cost on a single screen. The cost updates live, so there is no Calculate button and no alert pop-up.</li>
+      <li><b>Map first:</b> on phones, the route card sits on top and the trip details in a bottom sheet. On desktop, a floating panel sits next to an icon rail.</li>
+      <li><b>New navigation:</b> Plan · Trips (history and favourites) · Cars (saved profiles) · Settings. The HU/EN switch is in the rail on desktop and in Settings on mobile.</li>
+      <li><b>Multiple stops</b> (with drag to reorder and swap), plus avoid-chips for tolls, motorways and ferries.</li>
+      <li><b>Price filled automatically</b> with today's average, showing the min–max range. Tap to override.</li>
+      <li><b>The result is the hero:</b> total, per person, and One-way / Round trip. Save and Share are right there.</li>
+      <li><b>New icon set:</b> 24px line icons with a 1.75px stroke, used the same way in all three directions.</li>
+    </ul>
+  </section>
+
+  <section class="direction">
+    <div class="head"><h2>A. Clean, map-native</h2><a href="direction-a-clean.html">Open live →</a></div>
+    <p class="tagline">Calm and familiar, like Google or Apple Maps. White surfaces, soft shadows, one blue accent.</p>
+    <div class="shots">
+      <img src="../screenshots/directions/a-clean-desktop.png" alt="Direction A on desktop">
+      <img class="m" src="../screenshots/directions/a-clean-mobile.png" alt="Direction A on a phone">
+    </div>
+    <div class="notes">
+      <div><h3>Strengths</h3><ul><li>Instantly understandable; nothing to learn</li><li>The map stays the star</li><li>Easiest to build and keep consistent</li></ul></div>
+      <div><h3>Risks</h3><ul><li>Looks generic, with little brand personality</li><li>The cost doesn't stand out as much</li></ul></div>
+      <div><h3>Palette</h3><div class="swatches"><span style="background:#1a73e8"></span><span style="background:#e8f0fe"></span><span style="background:#ffffff"></span><span style="background:#f1efe9"></span><span style="background:#1f2328"></span></div></div>
+    </div>
+  </section>
+
+  <section class="direction">
+    <div class="head"><h2>B. Bold &amp; friendly <small style="font-size:13px;color:#0e8a6d">(chosen · now with saved cars)</small></h2><span><a href="colour-palettes.html">See 6 palettes →</a> &nbsp; <a href="fuelplan.html">Open live →</a> &nbsp; <a href="../screen-specs/cars.md">Cars spec →</a></span></div>
+    <p class="tagline">A confident brand: fuel-green and lime, big rounded tiles, and the cost as a dark green hero card.</p>
+    <div class="shots">
+      <img src="../screenshots/directions/b-bold-desktop.png" alt="Direction B on desktop">
+      <img class="m" src="../screenshots/directions/b-bold-mobile.png" alt="Direction B on a phone">
+    </div>
+    <div class="notes">
+      <div><h3>Strengths</h3><ul><li>Memorable, with its own identity</li><li>The answer ("how much?") jumps out immediately</li><li>Friendly and playful, good for sharing with friends</li></ul></div>
+      <div><h3>Risks</h3><ul><li>The strong colour can get loud if overused</li><li>Lime on dark green needs care for accessibility (fine at large sizes)</li></ul></div>
+      <div><h3>Palette</h3><div class="swatches"><span style="background:#0a3d33"></span><span style="background:#0e8a6d"></span><span style="background:#c6f36b"></span><span style="background:#d5f2e8"></span><span style="background:#eef4f1"></span></div></div>
+    </div>
+  </section>
+
+  <section class="direction">
+    <div class="head"><h2>C. Dark dashboard</h2><a href="direction-c-dark.html">Open live →</a></div>
+    <p class="tagline">Feels like a car's instrument cluster: dark glass panels, a glowing amber route, a monospaced cost and a fuel gauge.</p>
+    <div class="shots">
+      <img src="../screenshots/directions/c-dark-desktop.png" alt="Direction C on desktop">
+      <img class="m" src="../screenshots/directions/c-dark-mobile.png" alt="Direction C on a phone">
+    </div>
+    <div class="notes">
+      <div><h3>Strengths</h3><ul><li>Distinctive and premium</li><li>Comfortable at night and in the car</li><li>The fuel gauge makes the litres tangible</li></ul></div>
+      <div><h3>Risks</h3><ul><li>Dark maps are harder to read in daylight (would need a light mode too)</li><li>More visual effects to maintain</li></ul></div>
+      <div><h3>Palette</h3><div class="swatches"><span style="background:#0d1014"></span><span style="background:#1a1f26"></span><span style="background:#ffb020"></span><span style="background:#3dd6f5"></span><span style="background:#e9edf2"></span></div></div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,104 @@
+/* "Profil" (account and sign-in) for the B direction mock. Uses B's tokens and cars.css's form pieces. */
+
+/* ---------- Menu: profile at the bottom of the rail; initials once signed in ---------- */
+.rail-item--bottom { margin-bottom: 4px; }
+.nav-avatar {
+  width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%;
+  background: var(--pop); color: var(--brand-dark); font: 800 11px var(--font);
+}
+.rail .rail-item.active .nav-avatar { background: var(--brand-dark); color: var(--pop); }
+.tab .pill .nav-avatar { width: 22px; height: 22px; font-size: 10px; }
+
+/* ---------- Sign-in panel ---------- */
+.signin { display: flex; flex-direction: column; gap: 14px; }
+.signin-title { margin: 4px 0 0; font-size: 20px; font-weight: 800; letter-spacing: -0.01em; }
+.signin-text { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.signin-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+/* Plain stand-ins: the real app uses Apple's and Google's official branded buttons. */
+.btn.provider { width: 100%; height: 48px; border-radius: 999px; font-size: 15px; }
+.provider--apple { background: #000; color: #fff; }
+.provider--google { background: #fff; color: #1f1f1f; border: 1px solid #c9d3cf; }
+.btn.provider:disabled { opacity: 0.7; cursor: progress; }
+.signin-or { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 12px; font-weight: 600; }
+.signin-or::before, .signin-or::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+.signin-email { display: flex; flex-direction: column; gap: 10px; }
+.signin-email .btn { height: 46px; width: 100%; }
+.signin-legal { margin: 2px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.signin-legal a { color: var(--accent-text); font-weight: 700; }
+
+.signin-sent { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 12px 4px; }
+.signin-sent-art {
+  width: 84px; height: 84px; display: grid; place-items: center; border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent-text);
+}
+.signin-sent-art .ic { width: 38px; height: 38px; stroke-width: 1.5; }
+.signin-sent h2 { margin: 0; font-size: 19px; }
+.signin-sent p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.signin-sent p b { color: var(--text); }
+.signin-sent .btn { height: 46px; padding: 0 20px; }
+.signin-sent-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.link:disabled { color: var(--muted); cursor: default; background: none; }
+
+/* ---------- Profile ---------- */
+.profile-card {
+  display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: var(--radius-md);
+  background: var(--brand-dark); color: #fff;
+}
+.profile-avatar {
+  width: 52px; height: 52px; flex: none; display: grid; place-items: center; border-radius: 50%;
+  background: var(--pop); color: var(--brand-dark); font: 800 18px var(--font);
+}
+.profile-who { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.profile-who b { font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.profile-who span { color: rgba(255, 255, 255, 0.72); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.provider-pill {
+  flex: none; padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.12);
+  font-size: 11px; font-weight: 700;
+}
+
+.sync { margin: 0; display: flex; align-items: center; gap: 8px; color: var(--accent-text); font-size: 13px; font-weight: 600; }
+.sync .ic { width: 18px; height: 18px; flex: none; }
+.sync--offline { color: #a15c07; }
+
+.profile-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.profile-row {
+  width: 100%; display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: var(--radius-sm);
+  background: var(--row-bg); color: var(--text); font-size: 15px; font-weight: 650; text-align: left; text-decoration: none;
+}
+.profile-row:hover { background: var(--accent-soft); }
+.profile-row > .ic:first-child { color: var(--accent-text); }
+.profile-row > span:first-of-type { flex: 1; }
+.profile-row-meta { color: var(--muted); font-size: 13px; font-weight: 600; }
+.row-chev { color: var(--muted-2); width: 18px; height: 18px; }
+
+.danger-zone {
+  margin-top: 6px; padding: 16px; border-radius: var(--radius-sm);
+  border: 1px solid rgba(194, 65, 12, 0.25); background: rgba(194, 65, 12, 0.04);
+}
+.danger-zone h2 { margin: 0; font-size: 15px; color: #9a3412; }
+.danger-zone p { margin: 4px 0 12px; color: var(--muted); font-size: 13px; }
+.btn.danger-outline { height: 40px; padding: 0 16px; background: #fff; color: #c2410c; border: 1px solid rgba(194, 65, 12, 0.4); }
+
+/* Delete-account dialog */
+.modal-text { margin: 0; font-size: 14px; line-height: 1.55; }
+.modal-note {
+  margin: 0; display: flex; gap: 8px; padding: 10px 12px; border-radius: 12px;
+  background: var(--row-bg); color: var(--muted); font-size: 13px; line-height: 1.45;
+}
+.modal-note .ic { width: 18px; height: 18px; flex: none; color: var(--accent-text); }
+.check-row { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.check-row input { width: 20px; height: 20px; accent-color: #c2410c; }
+.btn.danger:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed; left: 50%; bottom: 24px; z-index: 30; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: 999px;
+  background: var(--brand-dark); color: #fff; font: 700 14px var(--font);
+  box-shadow: 0 10px 30px rgba(10, 61, 51, 0.3); animation: toast-in 0.2s ease-out;
+}
+.toast .ic { width: 18px; height: 18px; color: var(--pop); }
+@keyframes toast-in { from { transform: translate(-50%, 12px); opacity: 0; } }
+@media (max-width: 899px) {
+  .toast { bottom: calc(var(--tab-h, 68px) + 14px); }
+}

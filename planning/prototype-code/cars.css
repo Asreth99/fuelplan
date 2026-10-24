@@ -1,0 +1,179 @@
+/* "Autók" (saved cars) for the B direction mock. Uses B's tokens (--brand-dark, --pop, --field, …). */
+
+[data-car-row] { cursor: pointer; }
+[data-car-row]:hover { background: var(--accent-soft); }
+.row-ic .ic { color: inherit; }
+
+/* ---------- Views ---------- */
+.app:not([data-view="plan"]) .panel { display: none; }
+.app:not([data-view="plan"]) ~ .palette-switcher { display: none; } /* a planning aid; only on the plan view */
+
+.side-view {
+  position: absolute; left: 100px; top: 16px; bottom: 16px; width: 400px; z-index: 2;
+  display: flex; flex-direction: column; gap: 16px; padding: 20px; overflow-y: auto;
+  background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow);
+}
+.side-view[hidden] { display: none; }
+
+.cars-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.cars-title { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+.cars-sub { margin: 4px 0 0; color: var(--muted); font-size: 13px; line-height: 1.4; }
+.cars-add { flex: none; height: 40px; padding: 0 16px; }
+.btn.primary { background: var(--pop); color: var(--brand-dark); }
+
+.car-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.car-tile {
+  width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+  border-radius: var(--radius-sm); background: var(--row-bg); text-align: left;
+}
+.car-tile:hover { background: var(--accent-soft); }
+.car-avatar {
+  width: 42px; height: 42px; flex: none; display: grid; place-items: center;
+  border-radius: 50%; color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(10, 61, 51, 0.08); /* keeps very light custom colours visible on white */
+}
+.car-avatar .ic { width: 22px; height: 22px; }
+.car-avatar--custom { background: var(--field); color: var(--accent-text); }
+.car-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.car-name { font-weight: 750; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.car-meta { color: var(--muted); font-size: 13px; }
+.car-badge {
+  flex: none; padding: 4px 10px; border-radius: 999px;
+  background: var(--pop); color: var(--brand-dark); font-size: 11px; font-weight: 800;
+}
+.car-edit-ic { color: var(--muted-2); width: 18px; height: 18px; }
+
+.cars-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 28px 8px; }
+.cars-empty-art {
+  width: 96px; height: 96px; display: grid; place-items: center; border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent-text);
+}
+.cars-empty-art .ic { width: 44px; height: 44px; stroke-width: 1.5; }
+.cars-empty h2 { margin: 6px 0 0; font-size: 18px; }
+.cars-empty p { margin: 0 0 8px; color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 300px; }
+.cars-empty .btn { padding: 0 20px; }
+
+.cars-note { margin: auto 0 0; display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; }
+.cars-note .ic { width: 16px; height: 16px; }
+
+/* ---------- Modal: centred dialog (editor) or dropdown (picker) on desktop ---------- */
+.overlay { position: fixed; inset: 0; z-index: 20; background: rgba(10, 30, 25, 0.38); }
+.overlay[hidden] { display: none; }
+.modal {
+  position: absolute; display: flex; flex-direction: column; gap: 14px; padding: 20px;
+  background: var(--surface); border-radius: var(--radius-lg); box-shadow: 0 24px 60px rgba(10, 61, 51, 0.3);
+  font-family: var(--font); color: var(--text); max-height: calc(100% - 40px); overflow-y: auto;
+}
+.modal--editor { left: 50%; top: 50%; width: min(440px, calc(100% - 32px)); transform: translate(-50%, -50%); }
+.overlay:has(.modal--picker) { background: transparent; }
+.modal--picker {
+  left: var(--pop-left); top: var(--pop-top); width: var(--pop-width); padding: 12px; gap: 6px;
+  box-shadow: 0 16px 40px rgba(10, 61, 51, 0.25);
+}
+.modal-grabber { display: none; }
+.modal-head { display: flex; align-items: center; justify-content: space-between; }
+.modal-head h2 { margin: 0; font-size: 18px; font-weight: 800; }
+.modal--picker .modal-head { padding: 4px 4px 2px 8px; }
+.modal--picker .modal-head h2 { font-size: 15px; }
+
+/* Form */
+.car-form { display: flex; flex-direction: column; gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: 13px; font-weight: 700; }
+.field input, .field-input {
+  height: 46px; padding: 0 14px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--field); font: 600 16px var(--font); color: var(--text); outline: none;
+}
+.field input:focus, .field-input:focus-within { border-color: var(--brand); background: var(--surface); box-shadow: 0 0 0 3px var(--accent-soft); }
+.field-input { display: grid; grid-template-columns: 1fr auto; align-items: baseline; align-content: center; column-gap: 8px; }
+.field-input input { height: auto; padding: 0; border: 0; background: none; box-shadow: none !important; }
+.field-unit { color: var(--muted); font-size: 13px; font-weight: 600; }
+.field-hint { color: var(--muted); font-size: 12px; }
+.field-error { color: #c2410c; font-size: 12px; font-weight: 600; }
+.field-error:empty { display: none; }
+.field input[aria-invalid="true"], .field-input:has([aria-invalid="true"]) { border-color: #c2410c; }
+.car-form .seg button[aria-pressed="true"] { background: var(--brand-dark); color: #fff; }
+
+.swatches { display: flex; gap: 10px; }
+.swatch {
+  width: 34px; height: 34px; border-radius: 50%; background: var(--swatch);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6);
+}
+.swatch[aria-checked="true"] { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--swatch); }
+
+/*
+ * Custom colour: a rainbow swatch that opens the system colour picker. Once a colour is chosen,
+ * it fills with that colour and keeps a thin rainbow ring so it still reads as "custom".
+ */
+.swatch--custom {
+  position: relative; display: block; cursor: pointer;
+  --rainbow: conic-gradient(#ff4d4d, #ffb84d, #f5f53d, #4dd97a, #4db8ff, #8a6bff, #ff5cc8, #ff4d4d);
+  background:
+    radial-gradient(circle, var(--swatch) 0 55%, transparent 56%),
+    var(--rainbow);
+  box-shadow: none;
+}
+.swatch--custom[aria-checked="false"] { background: var(--rainbow); }
+.swatch--custom[aria-checked="false"]::after {
+  /* a "+" on the plain rainbow: tap to pick */
+  content: "+"; position: absolute; inset: 0; display: grid; place-items: center;
+  color: #fff; font: 800 20px/1 var(--font); text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+.swatch--custom[aria-checked="true"] { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--brand-dark); }
+.swatch--custom input {
+  /* invisible, but covers the swatch: a tap goes straight to the system colour picker */
+  position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; border: 0; padding: 0;
+}
+.swatch--custom:has(input:focus-visible) { outline: 2px solid var(--brand); outline-offset: 4px; }
+
+.switch-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--row-bg); cursor: pointer; }
+.switch-row > span:first-child { flex: 1; display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
+.switch-row small { color: var(--muted); font-size: 12px; }
+.switch-row input { position: absolute; opacity: 0; pointer-events: none; }
+.switch { width: 44px; height: 26px; flex: none; border-radius: 999px; background: var(--muted-2); position: relative; transition: background 0.2s; }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+.switch-row input:checked + .switch { background: var(--brand); }
+.switch-row input:checked + .switch::after { transform: translateX(18px); }
+.switch-row input:focus-visible + .switch { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+.modal-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 4px; }
+.modal-actions { display: flex; gap: 8px; }
+.modal-foot .btn { height: 44px; padding: 0 18px; }
+.btn.danger-text { background: none; color: #c2410c; padding: 0 8px; }
+.btn.danger { background: #c2410c; color: #fff; }
+.confirm-text { font-size: 14px; }
+
+/* Picker */
+.pick-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.pick { width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 14px; text-align: left; }
+.pick:hover, .pick:focus-visible { background: var(--row-bg); outline: none; }
+.pick[aria-checked="true"] { background: var(--accent-soft); }
+.pick .car-avatar { width: 36px; height: 36px; }
+.pick-check { color: var(--accent-text); }
+.pick-foot { display: flex; justify-content: space-between; padding: 8px 6px 2px; border-top: 1px solid var(--border); }
+.link { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 999px; color: var(--accent-text); font-weight: 700; font-size: 13px; }
+.link:hover { background: var(--accent-soft); }
+.link .ic { width: 16px; height: 16px; }
+
+/* ---------- Phones: full-screen cars list, bottom sheets for editor and picker ---------- */
+@media (max-width: 899px) {
+  .app:not([data-view="plan"]) .route-card,
+  .app:not([data-view="plan"]) .trip-sheet,
+  .app:not([data-view="plan"]) .locate { display: none; }
+
+  .side-view {
+    left: 0; right: 0; top: 0; bottom: var(--tab-h); width: auto; z-index: 3;
+    border-radius: 0; box-shadow: none; background: var(--bg); padding: 20px 16px;
+  }
+  .side-view .car-tile { background: var(--surface); box-shadow: 0 2px 8px rgba(10, 61, 51, 0.06); }
+
+  .overlay:has(.modal--picker) { background: rgba(10, 30, 25, 0.38); }
+  .modal, .modal--editor, .modal--picker {
+    left: 0; right: 0; top: auto; bottom: 0; width: auto; transform: none;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0; max-height: 92%;
+    padding: 8px 18px calc(18px + env(safe-area-inset-bottom, 0px));
+    animation: sheet-up 0.22s ease-out;
+  }
+  .modal-grabber { display: block; width: 40px; height: 5px; border-radius: 3px; background: var(--muted-2); margin: 0 auto 4px; }
+}
+@keyframes sheet-up { from { transform: translateY(40px); opacity: 0.6; } }

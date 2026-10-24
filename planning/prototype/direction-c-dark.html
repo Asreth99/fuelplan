@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FuelPlan — C. Dark dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../prototype-code/layout.css">
+<style>
+  /* Direction C: a car dashboard. Dark glass panels, an amber accent, monospaced numbers and a fuel gauge. */
+  :root {
+    color-scheme: dark;
+    --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display: "Space Grotesk", var(--font);
+    --font-number: "JetBrains Mono", ui-monospace, monospace;
+
+    --bg: #0d1014;
+    --text: #e9edf2;
+    --muted: #8b95a3;
+    --muted-2: #4a5361;
+
+    --surface: rgba(22, 26, 32, 0.86);
+    --surface-solid: #1a1f26;
+    --card-border: rgba(255, 255, 255, 0.07);
+    --border: #2a313b;
+    --field: #232932;
+    --field-border: #2c333d;
+    --chip-bg: transparent;
+    --row-bg: transparent;
+    --glass: blur(14px) saturate(140%);
+
+    --accent: #ffb020;
+    --accent-soft: rgba(255, 176, 32, 0.14);
+    --accent-text: #ffc457;
+    --on-accent: #1a1300;
+    --cyan: #3dd6f5;
+
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+
+    --rail-bg: #11151a;
+    --rail-text: #e9edf2;
+    --rail-muted: #7d8794;
+    --rail-active: #ffc457;
+    --rail-active-bg: rgba(255, 176, 32, 0.12);
+
+    --locate-halo: rgba(61, 214, 245, 0.18);
+    --locate-dot: #3dd6f5;
+
+    --map-land: #12161b;
+    --map-park: #14201a;
+    --map-water: #0f2b3a;
+    --map-road: #20262e;
+    --map-major: #2d3540;
+    --map-major-casing: #1a2028;
+    --map-route: #ffb020;
+    --map-route-casing: rgba(255, 176, 32, 0.25);
+    --map-pin: #3dd6f5;
+    --map-label: #9aa4b2;
+  }
+
+  /* Signature: glowing route, dashboard numbers, fuel gauge */
+  .m-route-casing { stroke-width: 18; filter: blur(4px); }
+  .m-end-dot { fill: #0d1014; }
+  .title, .cost-label, .chips-label { font-family: var(--font-display); }
+  .cost-value { color: var(--accent); text-shadow: 0 0 24px rgba(255, 176, 32, 0.35); font-weight: 800; letter-spacing: -0.04em; }
+  .stepper output { font-family: var(--font-number); }
+  .cost-value { font-size: 44px; word-spacing: -0.25em; }
+  .rows { background: rgba(255, 255, 255, 0.02); }
+  .stop input { font-family: var(--font); }
+  .chip { color: var(--text); }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+  .btn.secondary { background: transparent; border: 1px solid var(--border); }
+
+  .gauge { display: flex; flex-direction: column; gap: 6px; }
+  .gauge-bar {
+    height: 8px; border-radius: 4px; background: var(--field); overflow: hidden;
+    background-image: repeating-linear-gradient(90deg, transparent 0 calc(10% - 2px), #0d1014 calc(10% - 2px) 10%);
+  }
+  .gauge-bar span { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--cyan), var(--accent)); transition: width 0.3s; }
+  .gauge-text { font-size: 12px; color: var(--muted); }
+  .gauge-text b { color: var(--text); font-family: var(--font-number); }
+</style>
+</head>
+<body>
+<script src="../prototype-code/shared.js"></script>
+<script>bootDirection();</script>
+</body>
+</html>
