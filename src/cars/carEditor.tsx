@@ -81,7 +81,9 @@ export default function CarEditor() {
           <input
             ref={nameInput}
             className="field__input"
-            data-autofocus
+            // A new car starts with typing its name; editing usually changes something else, and
+            // focusing the field would pop up the phone keyboard over the dialog for nothing.
+            data-autofocus={!existing || undefined}
             maxLength={MAX_NAME_LENGTH}
             placeholder="e.g. Family Golf"
             autoComplete="off"

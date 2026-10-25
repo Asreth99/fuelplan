@@ -76,7 +76,8 @@ export class CarsPage {
 
   async openCar(name: string) {
     await this.tile(name).click();
-    await expect(this.nameField).toBeFocused();
+    // Editing doesn't focus a field (no phone keyboard popping up); the filled-in name shows it's open.
+    await expect(this.nameField).toHaveValue(name);
   }
 
   async makeDefault(name: string) {

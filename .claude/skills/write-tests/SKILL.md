@@ -118,6 +118,7 @@ Every feature or bug fix is finished only when **all** smoke tests pass:
 3. If anything fails, investigate. Read the error, the failure screenshot and the trace in `test-results/` (`npx playwright show-trace <trace.zip>`), and the app's console output. Find the root cause.
 4. Fix the cause, whether it's in the app or in the test, then re-run **only the failing or changed spec files** (`npx playwright test tests/specs/ui/<file>.spec.ts`, or `-g "<title part>"`). Repeat until they pass. Run the whole suite again only at the end, when the app code changed since the last full run.
    - When the change is just one or two test files (no app code), run only those files, never the full suite. A full run takes 3–7 minutes and costs time and tokens (the user's rule, 2026-10-25).
+   - **Tiny changes** (an icon, a label, a CSS tweak, a small UI behaviour): don't run tests, or at most a minimal smoke check (it compiles / one quick look). Still update page objects the change affects, and say in the reply that tests were skipped (the user's rule, 2026-10-25).
 5. Report the final result honestly, with the pass/fail count.
 
 Two limits on what counts as a fix:
