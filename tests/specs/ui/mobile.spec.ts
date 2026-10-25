@@ -1,5 +1,5 @@
 import { test, expect } from "../../fixtures";
-import { OVER_PULL_PX, PHONE, SHEET_MAX_SCREEN_SHARE, SHEET_PEEK_HEIGHT, TAB_BAR_HEIGHT } from "../../data/devices";
+import { OVER_PULL_PX, PHONE, SHEET_MAX_SCREEN_SHARE } from "../../data/devices";
 import { BUDAPEST_TO_DEBRECEN, SHORT_TRIP } from "../../data/trips";
 
 test.describe("Trip cost on mobile", () => {
@@ -75,13 +75,34 @@ test.describe("Trip cost on mobile", () => {
     });
   });
 
-  test("the bottom sheet opens small and can be dragged up to three quarters of the screen, no further", async ({ app }) => {
-    const peekTop = PHONE.viewport.height - TAB_BAR_HEIGHT - SHEET_PEEK_HEIGHT;
-    const highestTop = PHONE.viewport.height * (1 - SHEET_MAX_SCREEN_SHARE);
-
-    await test.step(`Expect the sheet to start at its small peek, ${SHEET_PEEK_HEIGHT}px above the tab bar`, async () => {
-      await expect.poll(() => app.bottomSheetTop()).toBeCloseTo(peekTop, -1);
+  test("the small sheet always fits the whole cost card, before and after there is a cost", async ({ app, menu, trip }) => {
+    await test.step("Expect the sheet to open small, below the middle of the screen", async () => {
+      await expect.poll(() => app.bottomSheetTop()).toBeGreaterThan(PHONE.viewport.height / 2);
     });
+
+    await test.step("Expect the whole cost card (asking for the trip details) to be visible, none of it behind the tab bar", async () => {
+      await expect(trip.costHint).toBeVisible();
+      await expect.poll(() => menu.pxCovered(trip.costCard)).toBe(0);
+    });
+
+    await test.step(`Drag the sheet up, fill in a ${SHORT_TRIP.distanceKm} km trip for ${SHORT_TRIP.passengers} passengers, and drag it back down`, async () => {
+      await app.expandBottomSheet();
+      await trip.fillTrip(SHORT_TRIP);
+      await app.collapseBottomSheet();
+    });
+
+    await test.step("Expect the taller card with the cost and the per-person cost to be fully visible too", async () => {
+      await expect(trip.costPerPerson).toBeVisible();
+      await expect.poll(() => menu.pxCovered(trip.costCard)).toBe(0);
+    });
+
+    await test.step("Expect the sheet to still be small: the map keeps most of the screen", async () => {
+      expect(await app.bottomSheetTop()).toBeGreaterThan(PHONE.viewport.height / 2);
+    });
+  });
+
+  test("the bottom sheet can be dragged up to three quarters of the screen, no further", async ({ app }) => {
+    const highestTop = PHONE.viewport.height * (1 - SHEET_MAX_SCREEN_SHARE);
 
     await test.step("Drag the bottom sheet's handle to the top of the screen", async () => {
       await app.expandBottomSheet();

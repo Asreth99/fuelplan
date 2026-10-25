@@ -118,13 +118,14 @@ test.describe("Find my location", () => {
         await app.expandBottomSheet();
       });
 
-      await test.step("Expect the button to have stopped at the middle of the screen, with the sheet now covering it", async () => {
+      const stoppedTop = await test.step("Expect the button to have stopped at the middle of the screen, with the sheet now covering it", async () => {
         const half = PHONE.viewport.height / 2;
         const placement = await mapView.locateButtonPlacement();
         expect(placement.top, "button moved up with the sheet").toBeLessThan(startTop);
         expect(placement.bottom, "button stopped just above the middle").toBeGreaterThan(half - 20);
         expect(placement.bottom, "button stopped just above the middle").toBeLessThanOrEqual(half);
         expect(placement.gapAboveSheet, "the sheet has slid over the button").toBeLessThan(0);
+        return placement.top;
       });
 
       await test.step("Drag the bottom sheet back down to its smallest height", async () => {
@@ -134,7 +135,8 @@ test.describe("Find my location", () => {
       await test.step("Expect the button to come back down with the sheet and sit right above it again", async () => {
         await expect(async () => {
           const placement = await mapView.locateButtonPlacement();
-          expect(placement.top, "button is back where it started").toBeCloseTo(startTop, -1);
+          // Not necessarily its exact start: the small sheet fits the cost card, which may have changed size meanwhile.
+          expect(placement.top, "button came back down").toBeGreaterThan(stoppedTop);
           expect(placement.gapAboveSheet, "button is not covered by the sheet").toBeGreaterThanOrEqual(0);
           expect(placement.gapAboveSheet, "button sits right above the sheet").toBeLessThanOrEqual(20);
         }).toPass();

@@ -5,9 +5,7 @@ export const PHONE = {
   hasTouch: true,
 };
 
-/** The phone layout's fixed sizes (bottomSheet.tsx, theme.css). */
-export const TAB_BAR_HEIGHT = 68;
-export const SHEET_PEEK_HEIGHT = 140;
+/** How far the phone's trip sheet can be dragged up: 75% of the screen (bottomSheet.tsx). */
 export const SHEET_MAX_SCREEN_SHARE = 0.75;
 
 /** Pulls on a dialog sheet's top bar: a short one springs back, a long one closes it (modal.tsx: 120px). */

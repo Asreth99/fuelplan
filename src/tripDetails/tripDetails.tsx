@@ -100,7 +100,7 @@ export default function TripDetails({ routes }: Props) {
 
   return (
     <section className="trip" aria-label="Trip cost">
-      <div className="trip__cost" aria-live="polite">
+      <div className="trip__cost" role="group" aria-label="Fuel cost" aria-live="polite">
         <div className="seg trip__seg" role="group" aria-label="Trip type">
           <button type="button" aria-pressed={!roundTrip} onClick={() => setRoundTrip(false)}>
             One way

@@ -47,7 +47,8 @@ test.describe("Choosing a car for the trip", () => {
     test.use(PHONE);
 
     test("the picker opens as a sheet over the trip and Escape closes it", async ({ trip, app }) => {
-      await test.step("Open the car picker from the Car row in the bottom sheet", async () => {
+      await test.step("Drag the bottom sheet up and open the car picker from its Car row", async () => {
+        await app.revealTripInputs();
         await trip.openCarPicker();
       });
 
@@ -62,7 +63,8 @@ test.describe("Choosing a car for the trip", () => {
     });
 
     test("the picker sheet can be dragged down to close it", async ({ trip, app }) => {
-      await test.step("Open the car picker", async () => {
+      await test.step("Drag the bottom sheet up and open the car picker", async () => {
+        await app.revealTripInputs();
         await trip.openCarPicker();
       });
 

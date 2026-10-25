@@ -13,6 +13,7 @@ export class TripPanel {
   readonly totalCost: Locator;
   readonly costPerPerson: Locator;
   readonly costHint: Locator;
+  readonly costCard: Locator;
   readonly routeOptions: Locator;
   readonly carRow: Locator;
   readonly selectedCar: Locator;
@@ -24,6 +25,7 @@ export class TripPanel {
   readonly signInToSaveCarsLink: Locator;
 
   constructor(private readonly page: Page) {
+    this.costCard = page.getByRole("group", { name: "Fuel cost" });
     // One button per route Google offers ("2 h 15 min · 231 km"); the chosen one is pressed.
     this.routeOptions = page.getByRole("group", { name: "Route options" }).getByRole("button");
     this.carRow = page.getByRole("button", { name: /^Car / });
